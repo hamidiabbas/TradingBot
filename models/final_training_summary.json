@@ -1,0 +1,62 @@
+{
+  "training_completed": true,
+  "training_date": "2025-08-10T09:51:10.719994",
+  "pipeline_version": "FINAL_FIXED_V5.0",
+  "platform": "Windows",
+  "data_source": "Real_MT5_Data_Final_Fixed",
+  "timestamp_investigation": {
+    "investigation_complete": true,
+    "raw_sample_data": [
+      1577923200000000000,
+      1578009600000000000,
+      1578268800000000000,
+      1578355200000000000,
+      1578441600000000000,
+      1578528000000000000,
+      1578614400000000000,
+      1578873600000000000,
+      1578960000000000000,
+      1579046400000000000
+    ],
+    "data_type": "int64",
+    "conversion_attempts": {
+      "unix_seconds": {
+        "valid_count": 0,
+        "sample_result": "All NaT"
+      },
+      "unix_milliseconds": {
+        "valid_count": 0,
+        "sample_result": "All NaT"
+      },
+      "direct_string": {
+        "valid_count": 0,
+        "sample_result": "All NaT"
+      },
+      "excel_epoch_offset": {
+        "valid_count": 0,
+        "sample_result": "All NaT"
+      }
+    }
+  },
+  "total_bars_preserved": 315420,
+  "total_samples": 102634,
+  "features_count": 28,
+  "sequence_length": 60,
+  "models_trained": [
+    "random_forest"
+  ],
+  "data_preservation_success": true,
+  "gpu_acceleration": true,
+  "random_forest": {
+    "model_type": "RandomForest_Final_Fixed",
+    "training_completed": true,
+    "model_version": "5.0_final_fixed",
+    "training_samples": 82107,
+    "test_samples": 20527,
+    "features_count": 1680,
+    "train_accuracy": 0.9678468340092806,
+    "test_accuracy": 0.5443562137672334,
+    "training_date": "2025-08-10T09:51:10.657497",
+    "model_file": "models/random_forest/final_fixed_rf.pkl"
+  }
+}
