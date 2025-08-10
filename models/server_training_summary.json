@@ -1,0 +1,13 @@
+{
+  "training_completed": true,
+  "training_date": "2025-08-10T09:09:36.893447",
+  "training_type": "FIXED_SERVER_READY",
+  "data_source": "Real_MT5_Data_Fixed",
+  "total_samples": 134906,
+  "features_count": 840,
+  "train_samples": 107924,
+  "test_samples": 26982,
+  "train_accuracy": 0.7554482784181461,
+  "test_accuracy": 0.5256096657030613,
+  "model_file": "models/random_forest/server_trained_rf.pkl"
+}

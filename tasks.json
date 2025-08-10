@@ -1,0 +1,42 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Setup Environment",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/setup_windows_env.bat",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Run Training",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/run_training.bat",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Start Trading Bot",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/start_trading.bat",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        }
+    ]
+}
+// This tasks.json file is used to define tasks for setting up the environment, running training, and starting the trading bot in the TradingBot project.

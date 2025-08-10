@@ -1,0 +1,57 @@
+# ===== CORE DATA SCIENCE & ML LIBRARIES =====
+numpy>=1.21.0
+pandas>=1.5.0
+scikit-learn>=1.2.0
+scipy>=1.9.0
+
+# ===== DEEP LEARNING & NEURAL NETWORKS =====
+tensorflow>=2.10.0
+keras>=2.10.0
+
+# ===== TRADING PLATFORM INTEGRATION =====
+MetaTrader5>=5.0.37
+
+# ===== TECHNICAL ANALYSIS LIBRARIES =====
+pandas-ta>=0.3.14b
+TA-Lib>=0.4.24
+
+# ===== ASYNC & CONCURRENCY =====
+asyncio>=3.4.3
+aiohttp>=3.8.0
+
+# ===== DATA PROCESSING & UTILITIES =====
+pytz>=2022.7
+python-dateutil>=2.8.2
+tqdm>=4.64.0
+joblib>=1.2.0
+
+# ===== CONFIGURATION & ENVIRONMENT =====
+PyYAML>=6.0
+python-dotenv>=1.0.0
+
+# ===== MATHEMATICAL & STATISTICAL =====
+statsmodels>=0.13.0
+
+# ===== SYSTEM MONITORING & PERFORMANCE =====
+psutil>=5.9.0
+memory-profiler>=0.60.0
+
+# ===== TESTING & DEVELOPMENT =====
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+
+# ===== DATABASE & STORAGE =====
+SQLAlchemy>=1.4.0
+h5py>=3.7.0  # For efficient data storage
+
+# ===== MACHINE LEARNING EXTENSIONS =====
+xgboost>=1.7.0
+lightgbm>=3.3.0
+
+# ===== TIME SERIES ANALYSIS =====
+pmdarima>=1.8.0
+arch>=5.3.0
+
+# ===== ADDITIONAL UTILITIES =====
+colorama>=0.4.6
+rich>=12.0.0

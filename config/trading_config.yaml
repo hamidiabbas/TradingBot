@@ -1,0 +1,18 @@
+# Basic Trading Configuration
+environment: demo
+symbols:
+  - EURUSD
+  - GBPUSD
+initial_balance: 10000.0
+max_risk_per_trade: 0.01
+
+# ML Models
+ml_models_enabled:
+  - lstm
+strategies_enabled:
+  - momentum
+
+# Logging
+logging_config:
+  log_level: INFO
+  log_to_file: true
