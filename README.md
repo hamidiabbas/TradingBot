@@ -120,3 +120,45 @@ Ensemble Model (78% accuracy)
 
 ### **Installation**
 
+### 📈 **Integration Architecture**
+text
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   ICT Strategy  │    │   RTM Strategy  │    │  SMC Indicators │
+│                 │    │                 │    │                 │  
+│ • Structure     │    │ • Zone Analysis │    │ • Order Blocks  │
+│   Breaks        │────│ • QML Patterns  │────│ • FVG Analysis  │
+│ • Liquidity     │    │ • Momentum      │    │ • Liquidity     │
+│   Zones         │    │   Shifts        │    │   Sweeps        │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         └───────────────────────┼───────────────────────┘
+                                 │
+                        ┌─────────────────┐
+                        │ ML Model        │
+                        │                 │
+                        │ • Feature       │
+                        │   Extraction    │
+                        │ • Pattern       │
+                        │   Recognition   │
+                        └─────────────────┘
+                                │
+                        ┌─────────────────┐
+                        │ Multi-Strategy  │
+                        │ Signal Combiner │
+                        │                 │
+                        │ • Weighted      │                                    
+                        │   Consensus     │
+                        │ • Confluence    │
+                        │   Scoring       │
+                        └─────────────────┘
+                                │
+                        ┌─────────────────┐
+                        │ Fixed Enhanced  │
+                        │ Backtesting     │
+                        │ Engine          │
+                        │                 │
+                        │ • Trade         │
+                        │   Execution     │
+                        │ • Performance   │
+                        │   Analytics     │
+                        └─────────────────┘
