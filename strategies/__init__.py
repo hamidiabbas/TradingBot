@@ -8,7 +8,13 @@ from dataclasses import dataclass
 from datetime import datetime
 import pandas as pd
 import numpy as np
+# Add comprehensive typing imports
+from typing import Dict, Any, Optional, List, Tuple, Union
 
+# Your existing imports
+from .base_strategy import BaseStrategy
+from .momentum_strategy import MomentumStrategy
+# ... other strategy imports
 @dataclass
 class SignalEvent:
     """Structured signal event for the confluence engine"""
@@ -246,3 +252,49 @@ __all__ = [
     'SignalEvent', 'TradeSetup', 'StrategyState', 'register_strategy',
     'MomentumStrategy', 'MeanReversionStrategy', 'BreakoutStrategy'
 ]
+
+"""
+Strategies Package
+=================
+Trading strategies collection with proper imports
+"""
+
+from typing import Dict, Any, Optional, List, Tuple, Union
+
+# Import base strategy first
+from .base_strategy import BaseStrategy, SignalEvent, register_strategy
+
+# Import strategies with error handling
+try:
+    from .momentum_strategy import MomentumStrategy
+    MOMENTUM_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: MomentumStrategy not available: {e}")
+    MOMENTUM_AVAILABLE = False
+
+# Add other strategy imports here as needed
+try:
+    from .rtm_strategy import RTMStrategy
+    RTM_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: RTM Strategy not available: {e}")
+    RTM_AVAILABLE = False
+
+try:
+    from .ict_strategy import ICTStrategy
+    ICT_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: ICT Strategy not available: {e}")
+    ICT_AVAILABLE = False
+
+# Export all available strategies
+__all__ = ['BaseStrategy', 'SignalEvent', 'register_strategy']
+
+if MOMENTUM_AVAILABLE:
+    __all__.append('MomentumStrategy')
+if RTM_AVAILABLE:
+    __all__.append('RTMStrategy')
+if ICT_AVAILABLE:
+    __all__.append('ICTStrategy')
+
+print(f"Strategies loaded: {[s for s in __all__ if 'Strategy' in s]}")

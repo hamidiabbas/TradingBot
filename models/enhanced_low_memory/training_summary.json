@@ -1,0 +1,36 @@
+{
+  "training_completed": true,
+  "best_model": "logistic_regression",
+  "best_accuracy": 0.5106666666666667,
+  "models_trained": [
+    "random_forest",
+    "gradient_boosting",
+    "logistic_regression",
+    "ensemble"
+  ],
+  "training_samples": 9000,
+  "test_samples": 3000,
+  "feature_count": 120,
+  "results": {
+    "random_forest": {
+      "train_accuracy": 0.777,
+      "test_accuracy": 0.48633333333333334,
+      "oob_score": 0.5046666666666667,
+      "overfitting_gap": 0.2906666666666667
+    },
+    "gradient_boosting": {
+      "train_accuracy": 0.6511111111111111,
+      "test_accuracy": 0.503,
+      "overfitting_gap": 0.14811111111111108
+    },
+    "logistic_regression": {
+      "train_accuracy": 0.5254444444444445,
+      "test_accuracy": 0.5106666666666667,
+      "overfitting_gap": 0.014777777777777779
+    },
+    "ensemble": {
+      "test_accuracy": 0.49933333333333335,
+      "voting_method": "majority"
+    }
+  }
+}

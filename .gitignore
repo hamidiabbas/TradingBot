@@ -1,3 +1,274 @@
-__pycache__
-trading_env
+# ===== PYTHON ENVIRONMENT =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ===== VIRTUAL ENVIRONMENTS =====
 .env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+trading_env/
+.conda/
+*.conda
+
+# ===== SENSITIVE CONFIGURATION =====
+.env
+.env.local
+.env.production
+.env.staging
+config/secrets.yaml
+config/production.yaml
+config/staging.yaml
+*.key
+*.pem
+*.p12
+*.pfx
+
+# ===== TRADING DATA & MODELS =====
+# Raw market data
+data/training/*.h5
+data/training/*.csv
+data/training/*.parquet
+data/raw/
+data/cache/
+data/temp/
+
+# Processed data
+data/processed/
+data/features/
+data/normalized/
+
+# Trained ML models
+models/lstm/*.h5
+models/lstm/*.pkl
+models/random_forest/*.pkl
+models/svm/*.pkl
+models/ensemble/*.pkl
+models/xgboost/*.pkl
+models/lightgbm/*.pkl
+models/catboost/*.pkl
+models/backups/
+*.model
+*.joblib
+*.pickle
+
+# Model training outputs
+models/training_logs/
+models/checkpoints/
+models/tensorboard/
+models/evaluation/
+
+# ===== LOGS & MONITORING =====
+logs/
+*.log
+*.log.*
+.logs/
+trading_logs/
+performance_logs/
+error_logs/
+debug_logs/
+system_logs/
+
+# ===== TEMPORARY FILES =====
+tmp/
+temp/
+cache/
+.cache/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ===== IDE & EDITORS =====
+.vscode/
+.idea/
+*.sublime-*
+.spyderproject
+.spyproject
+.ropeproject
+
+# ===== JUPYTER NOTEBOOKS =====
+.ipynb_checkpoints/
+*.ipynb
+!examples/*.ipynb
+!documentation/*.ipynb
+
+# ===== SYSTEM FILES =====
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.nfs*
+
+# ===== TESTING & COVERAGE =====
+.coverage
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+htmlcov/
+.coverage.*
+
+# ===== DOCUMENTATION =====
+docs/_build/
+docs/build/
+site/
+
+# ===== BACKUP FILES =====
+*.bak
+*.backup
+*.old
+*.orig
+*.save
+backups/
+
+# ===== TRADING SPECIFIC =====
+# MT5 installation files
+terminal64.exe
+MetaTrader*/
+
+# Trading history
+trading_history/
+trade_reports/
+backtesting_results/
+*.trade
+*.position
+
+# Performance data
+performance_reports/
+equity_curves/
+drawdown_analysis/
+
+# ===== DEVELOPMENT & DEBUG =====
+.pytest_cache/
+.mypy_cache/
+.pyre/
+.pytype/
+debug/
+profile/
+*.prof
+*.pstats
+
+# ===== SECURITY & COMPLIANCE =====
+# Credentials
+credentials.json
+service-account.json
+token.json
+auth.json
+
+# API keys
+api_keys.txt
+broker_credentials.txt
+mt5_credentials.txt
+
+# Certificates
+certificates/
+ssl/
+tls/
+
+# ===== DEPLOYMENT =====
+# Docker
+.dockerignore
+Dockerfile.prod
+docker-compose.override.yml
+.docker/
+
+# Kubernetes
+k8s/secrets/
+*.kubeconfig
+
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# ===== FINANCIAL COMPLIANCE =====
+# Audit trails (keep structure, exclude data)
+audit_logs/data/
+compliance_reports/raw/
+regulatory_filings/drafts/
+
+# Risk management data
+risk_metrics/detailed/
+stress_test_results/
+var_calculations/
+
+# ===== LARGE FILES =====
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.iso
+*.dmg
+
+# Large datasets
+*.h5
+*.hdf5
+!config/sample_data.h5
+
+# Video/Audio
+*.mp4
+*.avi
+*.mov
+*.mp3
+*.wav
+
+# ===== NODE.JS (if using web interface) =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ===== MISC =====
+.sass-cache/
+.connect.lock
+.grunt
+.lock-wscript
+.node_repl_history
+.npm
+.eslintcache
+.stylelintcache
