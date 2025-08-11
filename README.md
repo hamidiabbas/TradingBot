@@ -20,14 +20,6 @@ This is a sophisticated, end-to-end algorithmic trading system designed for prof
 - **📱 Multi-Platform**: Windows optimized with Linux/macOS support
 - **🔐 Security**: Enterprise-grade credential management and audit trails
 
-### **📊 Performance Highlights**
-
-- **Sharpe Ratio**: 1.8+ (backtested on 4+ years of data)
-- **Maximum Drawdown**: <15% with proper risk management
-- **Win Rate**: 65-75% across major currency pairs
-- **Data Coverage**: 243,916+ bars of real market data training
-
----
 
 ## 🏗️ **Architecture**
 
@@ -58,16 +50,16 @@ This is a sophisticated, end-to-end algorithmic trading system designed for prof
 
 ### **Model Architecture**
 
-Ensemble Model (78% accuracy)
-├── LSTM Model (67% accuracy)
+Ensemble Model 
+├── LSTM Model 
 │ ├── Sequence Length: 60
 │ ├── Features: 150+
 │ └── Horizons: 1h, 4h, Daily
-├── Random Forest (73% accuracy)
+├── Random Forest 
 │ ├── Estimators: 100
 │ ├── Max Depth: 15
 │ └── Features: Technical + Price action
-├── SVM Model (71% accuracy)
+├── SVM Model 
 │ ├── Kernel: RBF
 │ ├── Market Regimes: 14
 │ └── Real-time Classification
