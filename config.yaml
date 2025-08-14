@@ -1,0 +1,67 @@
+advanced_signal_factory_enabled: true
+base_position_size: 0.01
+base_risk_per_trade: 0.01
+kelly_enabled: true
+kelly_fraction: 0.25
+kelly_lookback_trades: 50
+log_level: INFO
+max_daily_loss: 0.08
+max_kelly_size: 0.05
+max_position_size: 0.05
+max_positions: 3
+max_risk_per_trade: 0.02
+min_kelly_size: 0.001
+min_position_size: 0.01
+min_signal_confidence: 0.4
+position_management:
+  auto_close_old_positions: true
+  max_concurrent_positions_per_symbol: 1
+  max_position_age_hours: 48
+position_sizing:
+  atr_period: 14
+  atr_sl_multiplier: 1.5
+  atr_tp_multiplier: 2.5
+  average_loss: 0.015
+  average_win: 0.025
+  base_risk_percentage: 1.5
+  confidence_multiplier: 1.2
+  enable_confidence_scaling: true
+  enable_dynamic_sl_tp: true
+  enable_volatility_adjustment: true
+  high_confidence_threshold: 0.85
+  kelly_multiplier: 0.4
+  low_confidence_threshold: 0.5
+  max_kelly_fraction: 0.15
+  max_position_size: 0.05
+  max_positions: 8
+  max_risk_per_trade: 0.025
+  max_sl_pips: 250
+  max_total_exposure: 0.4
+  max_tp_pips: 1500
+  method: adaptive_kelly
+  min_position_size: 0.01
+  min_risk_per_trade: 0.003
+  min_sl_pips: 20
+  min_tp_pips: 30
+  risk_adjustment_factor: 0.6
+  risk_reward_ratio: 1.8
+  scaling_factor: 1.5
+  use_dynamic: true
+  use_kelly: true
+  volatility_multiplier: 0.8
+  win_rate: 0.55
+signal_factory_enabled: true
+signal_processing_interval: 10
+stop_loss_pips: 50
+symbols:
+- EURUSD
+- GBPUSD
+- USDJPY
+- USDCHF
+- XAUUSD
+take_profit_pips: 100
+timeframes:
+- M15
+- H1
+- H4
+trading_mode: demo

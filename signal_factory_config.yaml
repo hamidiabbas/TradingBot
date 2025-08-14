@@ -1,0 +1,18 @@
+aggregation:
+  confidence_decay_factor: 0.95
+  min_consensus_threshold: 0.35
+  ml_weight_multiplier: 1.2
+distribution:
+  batch_size: 10
+  enable_backtester: true
+  enable_main_py: true
+max_workers: 8
+min_confidence_threshold: 0.1
+performance:
+  enable_monitoring: true
+  log_interval_minutes: 5
+processing_interval: 1
+signal_expiry_minutes: 30
+aggregation:
+  min_consensus_threshold: 0.35  # Lower from 0.5 to allow more signals
+  priority_threshold: 0.4        # Lower from 0.6 to include more signals

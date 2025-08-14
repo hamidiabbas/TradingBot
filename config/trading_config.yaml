@@ -1,18 +1,6 @@
-# Basic Trading Configuration
-environment: demo
-symbols:
-  - EURUSD
-  - GBPUSD
-initial_balance: 10000.0
-max_risk_per_trade: 0.01
-
-# ML Models
-ml_models_enabled:
-  - lstm
-strategies_enabled:
-  - momentum
-
-# Logging
-logging_config:
-  log_level: INFO
-  log_to_file: true
+# MetaTrader 5 Connection Settings
+mt5:
+  login: 5038880271  # Replace with your actual MT5 login number
+  password: "_qWw7aGm"  # Replace with your actual MT5 password
+  server: "MetaQuotes-Demo"  # Replace with your broker's server name
+  path: "C:\\Program Files\\MetaTrader 5\\terminal64.exe"  # Adjust path if different

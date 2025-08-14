@@ -933,7 +933,19 @@ def load_environment_variables():
     load_dotenv()
 
 # Configuration Loading with Environment Variables
-load_environment_variables()
-
-# Default configuration instance
-DEFAULT_CONFIG = TradingConfig()
+def load_configuration_from_env() -> TradingConfig:
+    """Load configuration from environment variables"""
+    config = TradingConfig()
+    config.mt5_login = int(os.getenv("MT5_LOGIN", config.mt5_login))
+    config.mt5_password = os.getenv("MT5_PASSWORD", config.mt5_password)
+    config.mt5_server = os.getenv("MT5_SERVER", config.mt5_server)
+    config.mt5_path = os.getenv("MT5_PATH", config.mt5_path)
+    config.mt5_timeout = int(os.getenv("MT5_TIMEOUT", config.mt5_timeout))
+    config.trading_mode = os.getenv("TRADING_MODE", config.trading_mode)
+    config.trading_symbols = os.getenv("TRADING_SYMBOLS", config.trading_symbols)
+    config.trading_timeframe = os.getenv("TRADING_TIMEFRAME", config.trading_timeframe)
+    config.trading_initial_capital = float(os.getenv("TRADING_INITIAL_CAPITAL", config.trading_initial_capital))
+    config.trading_risk_per_trade = float(os.getenv("TRADING_RISK_PER_TRADE", config.trading_risk_per_trade))
+    config.trading_max_positions = int(os.getenv("TRADING_MAX_POSITIONS", config.trading_max_positions))
+    config.trading_report_dir = os.getenv("TRADING_REPORT_DIR", config.trading_report_dir)
+    return config
