@@ -1,0 +1,36 @@
+# Signal Factory Configuration
+
+# Processing Settings
+processing_interval: 1  # seconds
+max_workers: 8
+signal_expiry_minutes: 30
+min_confidence_threshold: 0.1
+
+# Signal Aggregation
+aggregation:
+  min_consensus_threshold: 0.3
+  ml_weight_multiplier: 1.2
+  confidence_decay_factor: 0.95
+
+# Distribution Settings
+distribution:
+  enable_main_py: true
+  enable_backtester: true
+  batch_size: 10
+
+# Performance Monitoring
+performance:
+  enable_monitoring: true
+  log_interval_minutes: 5
+
+# Strategy Auto-Discovery
+strategy_discovery:
+  strategies_path: "strategies"
+  ml_models_path: "ml_models"
+  enable_auto_discovery: true
+
+# Extensibility Settings
+extensibility:
+  max_strategies: 50
+  max_ml_models: 20
+  allow_dynamic_loading: true
