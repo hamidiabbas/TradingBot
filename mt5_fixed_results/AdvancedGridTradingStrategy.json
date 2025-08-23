@@ -1,0 +1,15 @@
+{
+  "strategy_name": "AdvancedGridTradingStrategy",
+  "strategy_interfaces": [
+    "simple_analyze"
+  ],
+  "symbol": "EURUSD",
+  "timeframe": "H1",
+  "performance_metrics": "PortfolioMetrics(total_return=np.float64(9.036931441275043e-05), net_profit=np.float64(9.036931441275044), sharpe_ratio=np.float64(0.0035841379283878664), max_drawdown=np.float64(-0.0025418626948451855), total_trades=3, win_rate=0.3333333333333333, profit_factor=np.float64(2.0711047961764564), avg_trade=np.float64(3.0123104804250147), avg_winner=np.float64(263.2232009257872), avg_loser=np.float64(-127.09313474225607), largest_winner=np.float64(263.2232009257872), largest_loser=np.float64(-131.91647398704598), winning_trades=1, losing_trades=2, volatility=0.0)",
+  "total_signals": 3,
+  "completed_trades": 3,
+  "strategy_errors": 0,
+  "data_bars": 17521,
+  "data_source": "MT5",
+  "runtime_seconds": 2.79024338722229
+}

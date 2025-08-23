@@ -40,7 +40,7 @@ sys.path.append(str(project_root))
 
 # Import the enhanced backtesting engines
 try:
-    from enhanced_real_data_backtesting_engine import (
+    from enhanced_backtesting_engine import (
         EnhancedRealDataBacktestingEngine, 
         UniversalStrategyAdapter,
         DataSource,

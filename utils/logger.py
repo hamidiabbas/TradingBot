@@ -1,15 +1,30 @@
+"""
+Logger utility module
+"""
 import logging
-import sys
+from datetime import datetime
 
-def get_logger(name: str, level: str = "INFO"):
+def setup_logging(name="TradingBot", level=logging.INFO):
+    """Setup basic logging"""
     logger = logging.getLogger(name)
-    if logger.handlers:
-        return logger
-    logger.setLevel(getattr(logging, level.upper(), logging.INFO))
-    handler = logging.StreamHandler(sys.stdout)
-    fmt = logging.Formatter(
-        "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
-    )
-    handler.setFormatter(fmt)
-    logger.addHandler(handler)
+    logger.setLevel(level)
+    
+    if not logger.handlers:
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+    
     return logger
+
+# Default logger
+logger = setup_logging()
+
+def log_info(message):
+    logger.info(message)
+
+def log_error(message):
+    logger.error(message)
+
+def log_warning(message):
+    logger.warning(message)

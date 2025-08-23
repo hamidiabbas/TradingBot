@@ -27,7 +27,7 @@ import warnings
 from collections import defaultdict, deque
 
 # Import base strategy and event system
-from .base_strategy import BaseStrategy, SignalEvent, register_strategy
+from base_strategy import BaseStrategy, SignalEvent, register_strategy
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -1066,7 +1066,7 @@ import pandas as pd
 import numpy as np
 import logging
 
-from .base_strategy import BaseStrategy, SignalEvent, register_strategy
+from base_strategy import BaseStrategy, SignalEvent, register_strategy
 
 logger = logging.getLogger(__name__)
 

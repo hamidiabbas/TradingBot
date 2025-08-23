@@ -1,0 +1,77 @@
+{
+  "timestamp": "2025-08-14T21:35:21.155380",
+  "initial_state": {
+    "timestamp": "2025-08-14 21:35:05.211692",
+    "total_strategies_found": 16,
+    "strategies_loaded": 1,
+    "strategies_failed": 0,
+    "failed_strategies": {},
+    "loaded_strategies": [
+      "StrategyRegistry"
+    ],
+    "signals_generated": 0,
+    "signal_quality": {}
+  },
+  "repair_process": {
+    "files_processed": 14,
+    "files_repaired": 14,
+    "repairs_made": {
+      "base_strategy.py": [
+        "Fixed import statements"
+      ],
+      "breakout_strategy.py": [
+        "Fixed import statements"
+      ],
+      "compatibility.py": [
+        "Fixed import statements"
+      ],
+      "ict_strategy.py": [
+        "Fixed import statements"
+      ],
+      "indicator_suite_strategy.py": [
+        "Fixed import statements"
+      ],
+      "mean_reversion_strategy.py": [
+        "Fixed import statements"
+      ],
+      "momentum_strategy.py": [
+        "Fixed import statements"
+      ],
+      "news_strategy.py": [
+        "Fixed import statements"
+      ],
+      "pivot_point_strategy.py": [
+        "Fixed import statements"
+      ],
+      "rtm_strategy.py": [
+        "Fixed import statements"
+      ],
+      "scalping_strategy.py": [
+        "Fixed import statements"
+      ],
+      "smc_indicators.py": [
+        "Fixed import statements"
+      ],
+      "technical_indicators.py": [
+        "Fixed import statements"
+      ],
+      "volume_strategy.py": [
+        "Fixed import statements"
+      ]
+    },
+    "remaining_issues": {}
+  },
+  "final_state": {
+    "timestamp": "2025-08-14 21:35:15.443728",
+    "strategies_loaded": 0,
+    "loaded_strategies": [],
+    "signals_generated": 0,
+    "signal_quality": {},
+    "improvement": {}
+  },
+  "improvement": {
+    "strategies": -1,
+    "signals": 0,
+    "success_rate": 0.0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "strategy_name": "MultiFacetTrendStrategy",
+  "strategy_interfaces": [
+    "simple_analyze"
+  ],
+  "symbol": "EURUSD",
+  "timeframe": "H1",
+  "performance_metrics": "PortfolioMetrics(total_return=0.0, net_profit=0.0, sharpe_ratio=0.0, max_drawdown=0.0, total_trades=0, win_rate=0.0, profit_factor=0.0, avg_trade=0.0, avg_winner=0.0, avg_loser=0.0, largest_winner=0.0, largest_loser=0.0, winning_trades=0, losing_trades=0, volatility=0.0)",
+  "total_signals": 0,
+  "completed_trades": 0,
+  "strategy_errors": 0,
+  "data_bars": 17521,
+  "data_source": "MT5",
+  "runtime_seconds": 2.680140256881714
+}

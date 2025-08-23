@@ -1,90 +1,60 @@
+#!/usr/bin/env python3
 """
-Strategy Compatibility Layer
-===========================
-Bridges naming conflicts in your existing strategies
+Compatibility utilities for strategy system
 """
 
-from typing import Dict, Any, Optional, List
-import importlib
-import sys
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, List
 
-class StrategyRegistry:
-    """Registry to handle strategy name conflicts"""
+class CompatibilityLayer:
+    """Compatibility layer for different data formats"""
     
     def __init__(self):
-        self.strategies = {}
-        self.aliases = {}
+        self.supported_formats = ['MT5', 'CSV', 'JSON']
     
-    def register_strategy(self, name: str, strategy_class, aliases: List[str] = None):
-        """Register a strategy with optional aliases"""
-        self.strategies[name] = strategy_class
+    def normalize_data(self, data: Any, source_format: str = 'MT5') -> pd.DataFrame:
+        """Normalize data from different sources"""
+        if isinstance(data, pd.DataFrame):
+            return self.normalize_dataframe(data)
+        elif isinstance(data, dict):
+            return self.dict_to_dataframe(data)
+        elif isinstance(data, list):
+            return self.list_to_dataframe(data)
+        else:
+            raise ValueError(f"Unsupported data type: {type(data)}")
+    
+    def normalize_dataframe(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Normalize DataFrame columns"""
+        # Standardize column names
+        column_mapping = {
+            'Open': 'open', 'HIGH': 'high', 'Low': 'low', 'Close': 'close',
+            'Volume': 'volume', 'Time': 'time', 'Timestamp': 'time'
+        }
         
-        if aliases:
-            for alias in aliases:
-                self.aliases[alias] = name
-    
-    def get_strategy(self, name: str):
-        """Get strategy by name or alias"""
-        # Check direct name first
-        if name in self.strategies:
-            return self.strategies[name]
+        df_normalized = df.copy()
+        df_normalized.columns = [column_mapping.get(col, col.lower()) for col in df.columns]
         
-        # Check aliases
-        if name in self.aliases:
-            return self.strategies[self.aliases[name]]
+        # Ensure required columns exist
+        required_cols = ['open', 'high', 'low', 'close']
+        for col in required_cols:
+            if col not in df_normalized.columns:
+                df_normalized[col] = df_normalized.get('close', 0)
         
-        return None
+        return df_normalized
     
-    def list_strategies(self) -> List[str]:
-        """List all available strategies"""
-        return list(self.strategies.keys()) + list(self.aliases.keys())
-
-# Global registry
-strategy_registry = StrategyRegistry()
-
-def auto_discover_strategies():
-    """Auto-discover strategies in your existing files"""
-    strategy_modules = [
-        'momentum_strategy',
-        'rtm_strategy', 
-        'ict_strategy',
-        'indicator_suite'
-    ]
+    def dict_to_dataframe(self, data: Dict) -> pd.DataFrame:
+        """Convert dictionary to DataFrame"""
+        return pd.DataFrame([data])
     
-    for module_name in strategy_modules:
-        try:
-            module = importlib.import_module(f'.{module_name}', package='strategies')
-            
-            # Look for strategy classes
-            for attr_name in dir(module):
-                attr = getattr(module, attr_name)
-                
-                if (isinstance(attr, type) and 
-                    hasattr(attr, 'generate_signals') and
-                    attr_name != 'BaseStrategy'):
-                    
-                    # Register with multiple possible names
-                    strategy_registry.register_strategy(
-                        attr_name, 
-                        attr,
-                        aliases=[
-                            attr_name.replace('Enhanced', ''),
-                            attr_name.replace('Strategy', ''),
-                            module_name.replace('_strategy', '').upper()
-                        ]
-                    )
-                    print(f"✅ Registered strategy: {attr_name}")
-                    
-        except Exception as e:
-            print(f"⚠️ Could not load {module_name}: {e}")
-
-# Auto-discover on import
-auto_discover_strategies()
-
-def get_strategy_class(name: str):
-    """Get strategy class by any name"""
-    return strategy_registry.get_strategy(name)
-
-def list_available_strategies():
-    """List all available strategies"""
-    return strategy_registry.list_strategies()
+    def list_to_dataframe(self, data: List) -> pd.DataFrame:
+        """Convert list to DataFrame"""
+        if all(isinstance(item, dict) for item in data):
+            return pd.DataFrame(data)
+        else:
+            return pd.DataFrame({'value': data})
+    
+    def validate_compatibility(self, df: pd.DataFrame) -> bool:
+        """Validate data compatibility"""
+        required_columns = ['open', 'high', 'low', 'close']
+        return all(col in df.columns for col in required_columns)

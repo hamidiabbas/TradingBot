@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-08-22 20:41:22.703319",
+  "total_positions": 215,
+  "profitable_positions": 145,
+  "win_rate": 0.6744186046511628,
+  "total_profit_usd": -134.99,
+  "avg_profit_percentage": 0.0002309958009597884,
+  "portfolio_heat_percentage": 0.006624100000000001,
+  "heat_by_symbol": {
+    "XAUUSD": 0.004793200000000001,
+    "USDJPY": 0.0004281999999999998,
+    "EURUSD": 0.0010022,
+    "GBPUSD": 0.0001932,
+    "USDCHF": 0.00020730000000000005
+  },
+  "daily_profits_taken": 0.0,
+  "profit_actions_today": 0,
+  "scaling_actions_today": 0,
+  "dynamic_thresholds": {
+    "profit_threshold_1": 0.005,
+    "profit_threshold_2": 0.01,
+    "profit_threshold_3": 0.02,
+    "trailing_distance": 0.008,
+    "breakeven_trigger": 0.007,
+    "scale_in_threshold": 0.012,
+    "scale_out_threshold": -0.005
+  }
+}

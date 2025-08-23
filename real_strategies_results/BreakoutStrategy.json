@@ -1,0 +1,16 @@
+{
+  "strategy_name": "BreakoutStrategy",
+  "strategy_interfaces": [
+    "simple_analyze",
+    "advanced_signals"
+  ],
+  "symbol": "EURUSD",
+  "timeframe": "H1",
+  "performance_metrics": "PortfolioMetrics(total_return=np.float64(0.0010198720377417524), net_profit=np.float64(101.98720377417524), sharpe_ratio=np.float64(0.03346259029045586), max_drawdown=np.float64(-0.0032719545320712075), total_trades=6, win_rate=0.3333333333333333, profit_factor=np.float64(2.4674774593177187), avg_trade=np.float64(16.997867295695873), avg_winner=np.float64(269.158567365905), avg_loser=np.float64(-109.08248273940868), largest_winner=np.float64(272.3575), largest_loser=np.float64(-112.09621639146937), winning_trades=2, losing_trades=4, volatility=0.0)",
+  "total_signals": 6,
+  "completed_trades": 6,
+  "strategy_errors": 0,
+  "data_bars": 12410,
+  "data_source": "MT5-Compatible",
+  "runtime_seconds": 710.9710404872894
+}

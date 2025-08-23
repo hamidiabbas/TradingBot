@@ -1,0 +1,16 @@
+{
+  "strategy_name": "EnhancedMeanReversionStrategy",
+  "strategy_interfaces": [
+    "simple_analyze",
+    "advanced_signals"
+  ],
+  "symbol": "EURUSD",
+  "timeframe": "H1",
+  "performance_metrics": "PortfolioMetrics(total_return=np.float64(0.0004956169693337711), net_profit=np.float64(49.56169693337711), sharpe_ratio=np.float64(0.02345437654092206), max_drawdown=np.float64(-0.0010793700000000536), total_trades=3, win_rate=0.3333333333333333, profit_factor=np.float64(2.4636565527288785), avg_trade=np.float64(16.520565644459037), avg_winner=np.float64(263.3479429884745), avg_loser=np.float64(-106.89312302754868), largest_winner=np.float64(263.3479429884745), largest_loser=np.float64(-107.93700000000017), winning_trades=1, losing_trades=2, volatility=0.0)",
+  "total_signals": 3,
+  "completed_trades": 3,
+  "strategy_errors": 0,
+  "data_bars": 12410,
+  "data_source": "MT5-Compatible",
+  "runtime_seconds": 2331.908134460449
+}

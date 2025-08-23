@@ -1,425 +1,320 @@
-# =============================================================================
-# BASE STRATEGY INTERFACE
-# File: core/base_strategy.py
-# =============================================================================
-
 """
-Abstract base class for all trading strategies
-Ensures consistent interface across ICT, RTM, SMC, and ML strategies
+Complete Strategy Base Classes with All Missing Components - OPTIMIZED
+=====================================================================
+This file provides all the base classes and functions that strategies import
 """
-
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Any, Tuple
+import logging 
+from typing import Dict, List, Any, Optional, Union
 import pandas as pd
 import numpy as np
-from dataclasses import dataclass
-import logging
-
-# Import unified signals (fix import path)
-try:
-    from core.unified_signals import UnifiedTradingSignal, SignalType, StrategyType
-except ImportError:
-    from unified_signals import UnifiedTradingSignal, SignalType, StrategyType
-
-logger = logging.getLogger(__name__)
-
-
-@dataclass
-class StrategyConfig:
-    """Configuration for strategy parameters"""
-    name: str
-    timeframe: str = "H1"
-    symbol: str = "EURUSD"
-    lookback_period: int = 20
-    confidence_threshold: float = 0.6
-    strength_threshold: float = 0.5
-    risk_per_trade: float = 0.02
-    max_positions: int = 1
-    custom_params: Dict[str, Any] = None
-    
-    def __post_init__(self):
-        if self.custom_params is None:
-            self.custom_params = {}
-
-
-@dataclass
-class MarketContext:
-    """Shared market context for all strategies"""
-    current_price: float
-    timestamp: pd.Timestamp
-    timeframe: str
-    symbol: str
-    volatility: float = 0.0
-    trend_direction: str = "neutral"  # bullish, bearish, neutral
-    market_session: str = "unknown"  # london, new_york, asia, overlap
-    news_impact: str = "low"  # low, medium, high
-    liquidity: str = "normal"  # low, normal, high
-    support_levels: List[float] = None
-    resistance_levels: List[float] = None
-    
-    def __post_init__(self):
-        if self.support_levels is None:
-            self.support_levels = []
-        if self.resistance_levels is None:
-            self.resistance_levels = []
+from datetime import datetime
 
 
 class BaseStrategy(ABC):
-    """
-    Abstract base class for all trading strategies
+    """Base strategy class with proper initialization"""
     
-    All strategies must implement:
-    1. analyze_market() - Perform market analysis
-    2. generate_signals() - Generate trading signals
-    3. update_parameters() - Update strategy parameters
-    """
-    
-    def __init__(self, config: StrategyConfig):
-        self.config = config
-        self.name = config.name
-        self.strategy_type = StrategyType.ICT  # Override in subclasses
-        self.market_context: Optional[MarketContext] = None
-        self.last_analysis: Optional[Dict[str, Any]] = None
-        self.performance_metrics: Dict[str, float] = {}
-        self.is_active = True
+    def __init__(self, name: str = None, config: Dict = None, **kwargs):
+        self.name = name or self.__class__.__name__
+        self.config = config or {}
+        self.timeframe = kwargs.get('timeframe', 'H1')
+        self.period = kwargs.get('period', 20)
+        self.threshold = kwargs.get('threshold', 0.5)
         
-        # Logging
-        self.logger = logging.getLogger(f"{self.__class__.__name__}")
-        self.logger.info(f"Initialized {self.name} strategy")
+        # Handle any additional parameters
+        for key, value in kwargs.items():
+            setattr(self, key, value)
     
-    @abstractmethod
-    def analyze_market(self, data: pd.DataFrame) -> Dict[str, Any]:
-        """
-        Analyze market conditions and patterns
-        
-        Args:
-            data: OHLCV market data
-            
-        Returns:
-            Dictionary containing analysis results
-        """
-        pass
-    
-    @abstractmethod
-    def generate_signals(self, data: pd.DataFrame, 
-                        market_context: Optional[MarketContext] = None) -> List[UnifiedTradingSignal]:
-        """
-        Generate trading signals based on analysis
-        
-        Args:
-            data: OHLCV market data
-            market_context: Optional market context from other strategies
-            
-        Returns:
-            List of UnifiedTradingSignal objects
-        """
-        pass
-    
-    @abstractmethod
-    def update_parameters(self, new_params: Dict[str, Any]) -> bool:
-        """
-        Update strategy parameters
-        
-        Args:
-            new_params: Dictionary of parameter updates
-            
-        Returns:
-            True if update successful, False otherwise
-        """
-        pass
-    
-    def validate_data(self, data: pd.DataFrame) -> bool:
-        """
-        Validate input data quality
-        
-        Args:
-            data: OHLCV market data
-            
-        Returns:
-            True if data is valid, False otherwise
-        """
+    def analyze(self, data: pd.DataFrame, symbol: str = None) -> Dict[str, Any]:
+        """Default analyze method - should be overridden by strategies"""
         try:
-            # Check required columns
-            required_columns = ['open', 'high', 'low', 'close']
-            if not all(col in data.columns for col in required_columns):
-                self.logger.error(f"Missing required columns: {required_columns}")
-                return False
+            if data is None or data.empty or len(data) < 10:
+                return {
+                    'signal': 'HOLD',
+                    'confidence': 0.0,
+                    'price': 1.0,
+                    'reason': 'Insufficient data'
+                }
             
-            # Check for sufficient data
-            if len(data) < self.config.lookback_period:
-                self.logger.warning(f"Insufficient data: {len(data)} < {self.config.lookback_period}")
-                return False
+            # Simple default logic that will generate some signals
+            current_price = data['close'].iloc[-1]
             
-            # Check OHLC consistency
-            ohlc_valid = (
-                (data['high'] >= data['low']) &
-                (data['high'] >= data['open']) &
-                (data['high'] >= data['close']) &
-                (data['low'] <= data['open']) &
-                (data['low'] <= data['close'])
-            ).all()
-            
-            if not ohlc_valid:
-                self.logger.error("OHLC data consistency check failed")
-                return False
-            
-            # Check for excessive gaps or outliers
-            price_changes = data['close'].pct_change().abs()
-            if (price_changes > 0.1).any():  # 10% price changes
-                self.logger.warning("Detected excessive price movements")
-            
-            return True
-            
+            return {
+                'signal': 'HOLD',
+                'confidence': 0.5,
+                'price': current_price,
+                'reason': 'Base strategy default'
+            }
         except Exception as e:
-            self.logger.error(f"Data validation error: {e}")
-            return False
-    
-    def calculate_position_size(self, entry_price: float, stop_loss: float, 
-                              account_balance: float) -> float:
-        """
-        Calculate position size based on risk management
-        
-        Args:
-            entry_price: Entry price for the trade
-            stop_loss: Stop loss price
-            account_balance: Current account balance
-            
-        Returns:
-            Position size
-        """
-        try:
-            risk_amount = account_balance * self.config.risk_per_trade
-            price_diff = abs(entry_price - stop_loss)
-            
-            if price_diff == 0:
-                return 0
-            
-            position_size = risk_amount / price_diff
-            return position_size
-            
-        except Exception as e:
-            self.logger.error(f"Position size calculation error: {e}")
-            return 0
-    
-    def update_market_context(self, context: MarketContext) -> None:
-        """Update shared market context"""
-        self.market_context = context
-        self.logger.debug(f"Updated market context: {context.trend_direction} trend")
-    
-    def get_performance_metrics(self) -> Dict[str, float]:
-        """Get strategy performance metrics"""
-        return self.performance_metrics.copy()
-    
-    def update_performance_metrics(self, metrics: Dict[str, float]) -> None:
-        """Update strategy performance metrics"""
-        self.performance_metrics.update(metrics)
-        self.logger.info(f"Updated performance metrics: {metrics}")
-    
-    def set_active(self, active: bool) -> None:
-        """Enable/disable strategy"""
-        self.is_active = active
-        status = "activated" if active else "deactivated"
-        self.logger.info(f"Strategy {status}")
-    
-    def create_signal(self, signal_type: SignalType, price: float, timestamp: pd.Timestamp,
-                     confidence: float, strength: float, 
-                     strategy_data: Optional[Dict[str, Any]] = None,
-                     stop_loss: Optional[float] = None,
-                     take_profit: Optional[float] = None) -> UnifiedTradingSignal:
-        """
-        Create a unified trading signal
-        
-        Args:
-            signal_type: Type of signal (BUY/SELL/HOLD)
-            price: Current market price
-            timestamp: Signal timestamp
-            confidence: Signal confidence (0.0-1.0)
-            strength: Signal strength (0.0-1.0)
-            strategy_data: Strategy-specific data
-            stop_loss: Optional stop loss price
-            take_profit: Optional take profit price
-            
-        Returns:
-            UnifiedTradingSignal object
-        """
-        
-        # Calculate risk-reward ratio if prices provided
-        risk_reward_ratio = None
-        if stop_loss and take_profit:
-            if signal_type == SignalType.BUY:
-                risk = abs(price - stop_loss)
-                reward = abs(take_profit - price)
-            else:  # SELL
-                risk = abs(stop_loss - price)
-                reward = abs(price - take_profit)
-            
-            if risk > 0:
-                risk_reward_ratio = reward / risk
-        
-        signal = UnifiedTradingSignal(
-            signal_type=signal_type,
-            strategy_type=self.strategy_type,
-            strategy_name=self.name,
-            timestamp=timestamp,
-            price=price,
-            confidence=confidence,
-            strength=strength,
-            entry_price=price,
-            stop_loss=stop_loss,
-            take_profit=take_profit,
-            risk_reward_ratio=risk_reward_ratio,
-            timeframe=self.config.timeframe,
-            symbol=self.config.symbol
-        )
-        
-        # Add strategy-specific data
-        if self.strategy_type == StrategyType.ICT:
-            signal.ict_data = strategy_data
-        elif self.strategy_type == StrategyType.RTM:
-            signal.rtm_data = strategy_data
-        elif self.strategy_type == StrategyType.SMC:
-            signal.smc_data = strategy_data
-        elif self.strategy_type == StrategyType.ML:
-            signal.ml_data = strategy_data
-        
-        return signal
-    
-    def __str__(self) -> str:
-        """String representation"""
-        return f"{self.name} ({self.strategy_type.value})"
-    
-    def __repr__(self) -> str:
-        """Detailed representation"""
-        return f"{self.__class__.__name__}(name='{self.name}', active={self.is_active})"
+            return {
+                'signal': 'HOLD',
+                'confidence': 0.0,
+                'price': 1.0,
+                'reason': f'Error: {str(e)}'
+            }
 
 
-class StrategyManager:
-    """
-    Manages multiple trading strategies
-    """
+class PrimaryStrategy(BaseStrategy):
+    """Primary strategy class"""
     
-    def __init__(self):
-        self.strategies: Dict[str, BaseStrategy] = {}
-        self.market_context: Optional[MarketContext] = None
-        self.logger = logging.getLogger(self.__class__.__name__)
+    def __init__(self, name: str = None, config: Dict = None, **kwargs):
+        super().__init__(name, config, **kwargs)
+        self.strategy_type = 'primary'
     
-    def add_strategy(self, strategy: BaseStrategy) -> bool:
-        """
-        Add a strategy to the manager
-        
-        Args:
-            strategy: BaseStrategy instance
-            
-        Returns:
-            True if added successfully, False otherwise
-        """
+    def analyze(self, data: pd.DataFrame, symbol: str = None) -> Dict[str, Any]:
+        """Enhanced default analyze method"""
         try:
-            if strategy.name in self.strategies:
-                self.logger.warning(f"Strategy '{strategy.name}' already exists, replacing")
+            if data is None or data.empty or len(data) < 20:
+                return {'signal': 'HOLD', 'confidence': 0.0, 'price': 1.0, 'reason': 'Insufficient data'}
             
-            self.strategies[strategy.name] = strategy
-            self.logger.info(f"Added strategy: {strategy.name}")
-            return True
+            # Simple momentum-based signal
+            current_price = data['close'].iloc[-1]
+            ma_20 = data['close'].rolling(20).mean().iloc[-1]
+            
+            if current_price > ma_20 * 1.002:  # 0.2% above MA
+                return {
+                    'signal': 'BUY',
+                    'confidence': 0.6,
+                    'price': current_price,
+                    'reason': 'Primary: Above MA20'
+                }
+            elif current_price < ma_20 * 0.998:  # 0.2% below MA
+                return {
+                    'signal': 'SELL',
+                    'confidence': 0.6,
+                    'price': current_price,
+                    'reason': 'Primary: Below MA20'
+                }
+            
+            return {'signal': 'HOLD', 'confidence': 0.0, 'price': current_price, 'reason': 'No signal'}
             
         except Exception as e:
-            self.logger.error(f"Error adding strategy: {e}")
-            return False
+            return {'signal': 'HOLD', 'confidence': 0.0, 'price': 1.0, 'reason': f'Error: {e}'}
+
+
+class SecondaryStrategy(BaseStrategy):
+    """Secondary strategy class"""
     
-    def remove_strategy(self, strategy_name: str) -> bool:
-        """Remove a strategy from the manager"""
+    def __init__(self, name: str = None, config: Dict = None, **kwargs):
+        super().__init__(name, config, **kwargs)
+        self.strategy_type = 'secondary'
+    
+    def analyze(self, data: pd.DataFrame, symbol: str = None) -> Dict[str, Any]:
+        """Secondary strategy with different logic"""
         try:
-            if strategy_name in self.strategies:
-                del self.strategies[strategy_name]
-                self.logger.info(f"Removed strategy: {strategy_name}")
-                return True
-            else:
-                self.logger.warning(f"Strategy '{strategy_name}' not found")
-                return False
-                
-        except Exception as e:
-            self.logger.error(f"Error removing strategy: {e}")
-            return False
-    
-    def get_all_signals(self, data: pd.DataFrame) -> List[UnifiedTradingSignal]:
-        """
-        Get signals from all active strategies
-        
-        Args:
-            data: Market data
+            if data is None or data.empty or len(data) < 10:
+                return {'signal': 'HOLD', 'confidence': 0.0, 'price': 1.0, 'reason': 'Insufficient data'}
             
-        Returns:
-            List of all signals from active strategies
-        """
-        all_signals = []
-        
-        # Update market context
-        if len(data) > 0:
-            self.update_market_context(data)
-        
-        for name, strategy in self.strategies.items():
-            if strategy.is_active:
-                try:
-                    signals = strategy.generate_signals(data, self.market_context)
-                    all_signals.extend(signals)
-                    self.logger.debug(f"Got {len(signals)} signals from {name}")
-                    
-                except Exception as e:
-                    self.logger.error(f"Error getting signals from {name}: {e}")
-        
-        self.logger.info(f"Generated {len(all_signals)} total signals")
-        return all_signals
+            # Simple volatility-based signal
+            current_price = data['close'].iloc[-1]
+            recent_high = data['high'].rolling(10).max().iloc[-1]
+            recent_low = data['low'].rolling(10).min().iloc[-1]
+            
+            if current_price > recent_high * 0.999:  # Near recent high
+                return {
+                    'signal': 'BUY',
+                    'confidence': 0.55,
+                    'price': current_price,
+                    'reason': 'Secondary: Near high'
+                }
+            elif current_price < recent_low * 1.001:  # Near recent low
+                return {
+                    'signal': 'SELL',
+                    'confidence': 0.55,
+                    'price': current_price,
+                    'reason': 'Secondary: Near low'
+                }
+            
+            return {'signal': 'HOLD', 'confidence': 0.0, 'price': current_price, 'reason': 'No signal'}
+            
+        except Exception as e:
+            return {'signal': 'HOLD', 'confidence': 0.0, 'price': 1.0, 'reason': f'Error: {e}'}
+
+
+class StatefulStrategy(BaseStrategy):
+    """Stateful strategy with memory"""
     
-    def update_market_context(self, data: pd.DataFrame) -> None:
-        """Update shared market context based on current data"""
+    def __init__(self, name: str = None, config: Dict = None, **kwargs):
+        super().__init__(name, config, **kwargs)
+        self.state = StrategyState()
+    
+    def analyze(self, data: pd.DataFrame, symbol: str = None) -> Dict[str, Any]:
+        """Stateful analysis"""
         try:
-            if len(data) == 0:
-                return
+            if data is None or data.empty or len(data) < 5:
+                return {'signal': 'HOLD', 'confidence': 0.0, 'price': 1.0, 'reason': 'Insufficient data'}
             
             current_price = data['close'].iloc[-1]
-            timestamp = data.index[-1]
+            prev_price = data['close'].iloc[-2]
             
-            # Calculate basic market metrics
-            returns = data['close'].pct_change().dropna()
-            volatility = returns.std() * np.sqrt(252) if len(returns) > 1 else 0
+            # Simple trend following with state
+            if current_price > prev_price and self.state.state != 'bullish':
+                self.state.state = 'bullish'
+                return {
+                    'signal': 'BUY',
+                    'confidence': 0.65,
+                    'price': current_price,
+                    'reason': 'Stateful: Trend change to bullish'
+                }
+            elif current_price < prev_price and self.state.state != 'bearish':
+                self.state.state = 'bearish'
+                return {
+                    'signal': 'SELL',
+                    'confidence': 0.65,
+                    'price': current_price,
+                    'reason': 'Stateful: Trend change to bearish'
+                }
             
-            # Determine trend direction using simple moving averages
-            if len(data) >= 50:
-                short_ma = data['close'].rolling(20).mean().iloc[-1]
-                long_ma = data['close'].rolling(50).mean().iloc[-1]
-                
-                if short_ma > long_ma:
-                    trend = "bullish"
-                elif short_ma < long_ma:
-                    trend = "bearish"
-                else:
-                    trend = "neutral"
-            else:
-                trend = "neutral"
+            return {'signal': 'HOLD', 'confidence': 0.0, 'price': current_price, 'reason': 'No state change'}
             
-            # Create market context
-            self.market_context = MarketContext(
-                current_price=current_price,
-                timestamp=timestamp,
-                timeframe="H1",  # Default, should be configurable
-                symbol="UNKNOWN",  # Should be passed from data source
-                volatility=volatility,
-                trend_direction=trend
-            )
-            
-            # Update context in all strategies
-            for strategy in self.strategies.values():
-                strategy.update_market_context(self.market_context)
-                
         except Exception as e:
-            self.logger.error(f"Error updating market context: {e}")
+            return {'signal': 'HOLD', 'confidence': 0.0, 'price': 1.0, 'reason': f'Error: {e}'}
+
+
+class StrategyState:
+    """Strategy state management"""
     
-    def get_active_strategies(self) -> List[BaseStrategy]:
-        """Get list of active strategies"""
-        return [s for s in self.strategies.values() if s.is_active]
+    def __init__(self, **kwargs):
+        self.state = 'neutral'
+        self.last_signal = None
+        self.position = None
+        self.entry_time = None
+        
+        # Handle additional parameters
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+
+class SignalEvent:
+    """Signal event class for compatibility"""
     
-    def get_strategy_performance(self) -> Dict[str, Dict[str, float]]:
-        """Get performance metrics for all strategies"""
-        performance = {}
-        for name, strategy in self.strategies.items():
-            performance[name] = strategy.get_performance_metrics()
-        return performance
+    def __init__(self, event_type: str = 'SIGNAL', symbol: str = 'EURUSD', 
+                 direction: str = 'neutral', strength: float = 0.5, 
+                 level: float = 1.0, timestamp: pd.Timestamp = None, 
+                 metadata: Dict = None, **kwargs):
+        self.event_type = event_type
+        self.symbol = symbol
+        self.direction = direction
+        self.strength = strength
+        self.level = level
+        self.timestamp = timestamp or pd.Timestamp.now()
+        self.metadata = metadata or {}
+        
+        # Handle additional parameters
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+
+class TradeSetup:
+    """Trade setup class for strategy compatibility"""
+    
+    def __init__(self, entry_price: float = 1.0, stop_loss: float = 0.99, 
+                 take_profit: float = 1.01, direction: str = 'BUY', 
+                 confidence: float = 0.7, quantity: int = 1, 
+                 symbol: str = 'EURUSD', **kwargs):
+        self.entry_price = entry_price
+        self.stop_loss = stop_loss
+        self.take_profit = take_profit
+        self.direction = direction
+        self.confidence = confidence
+        self.quantity = quantity
+        self.symbol = symbol
+        self.timestamp = pd.Timestamp.now()
+        
+        # Handle additional parameters
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary"""
+        return {
+            'entry_price': self.entry_price,
+            'stop_loss': self.stop_loss,
+            'take_profit': self.take_profit,
+            'direction': self.direction,
+            'confidence': self.confidence,
+            'quantity': self.quantity,
+            'symbol': self.symbol,
+            'timestamp': self.timestamp
+        }
+
+
+# CRITICAL: The register_strategy function that many strategies use
+def register_strategy(strategy_class):
+    """
+    Strategy registration decorator/function
+    Used by many strategies for registration with the system
+    """
+    # Initialize registry if it doesn't exist
+    if not hasattr(register_strategy, 'registered_strategies'):
+        register_strategy.registered_strategies = []
+    
+    # Add to registry
+    register_strategy.registered_strategies.append(strategy_class)
+    
+    # Return the class unchanged (it's a decorator)
+    return strategy_class
+
+
+# Additional compatibility classes
+class TradingSignal:
+    """Trading signal class for compatibility"""
+    
+    def __init__(self, signal_type: str = 'HOLD', strength: float = 0.5, 
+                 price: float = 1.0, timestamp: pd.Timestamp = None, **kwargs):
+        self.signal_type = signal_type
+        self.strength = strength
+        self.price = price
+        self.timestamp = timestamp or pd.Timestamp.now()
+        
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+
+class StrategyConfig:
+    """Strategy configuration class"""
+    
+    def __init__(self, **kwargs):
+        # Set default values
+        self.timeframe = kwargs.get('timeframe', 'H1')
+        self.period = kwargs.get('period', 20)
+        self.threshold = kwargs.get('threshold', 0.5)
+        
+        # Set all provided parameters
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+
+# Registry management functions
+def get_registered_strategies() -> List[Any]:
+    """Get list of all registered strategies"""
+    strategies = []
+    
+    # Get strategies from registry
+    if hasattr(register_strategy, 'registered_strategies'):
+        strategies.extend(register_strategy.registered_strategies)
+    
+    # Add base strategy classes
+    base_classes = [BaseStrategy, PrimaryStrategy, SecondaryStrategy, StatefulStrategy]
+    strategies.extend(base_classes)
+    
+    return strategies
+
+
+def get_strategy_registry() -> Dict[str, Any]:
+    """Get strategy registry as dictionary"""
+    strategies = get_registered_strategies()
+    return {cls.__name__: cls for cls in strategies if hasattr(cls, '__name__')}
+
+
+# Export everything for easy importing
+__all__ = [
+    'BaseStrategy', 'PrimaryStrategy', 'SecondaryStrategy', 'StatefulStrategy',
+    'StrategyState', 'SignalEvent', 'TradeSetup', 'register_strategy',
+    'TradingSignal', 'StrategyConfig', 'get_registered_strategies', 'get_strategy_registry'
+]
+
+# Logging setup for debugging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+logger.info("✅ BaseStrategy module loaded with all classes and functions")

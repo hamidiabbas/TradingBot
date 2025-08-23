@@ -31,7 +31,7 @@ from scipy import stats
 import math
 
 # Import base strategy and event system
-from .base_strategy import BaseStrategy, SignalEvent, register_strategy
+from base_strategy import BaseStrategy, SignalEvent, register_strategy
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

@@ -1,0 +1,3 @@
+strategy,net_profit,total_return_%,sharpe,max_dd_%,trades,win_rate_%,runtime_s
+MomentumScalpingStrategy,0.0,0.0,0.0,0.0,0,0.0,1.39
+AdvancedMomentumStrategy,0.0,0.0,0.0,0.0,0,0.0,1.63
