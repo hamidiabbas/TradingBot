@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 ===============================================================
+<<<<<<< HEAD
+DYNAMIC KELLY POSITION SIZING - COMPLETE WORKING VERSION
+===============================================================
+Advanced Kelly Criterion Position Sizing System
+- Professional Kelly Criterion calculations
+- Portfolio correlation analysis  
+- Dynamic risk adjustments
+- Multi-factor position optimization
+
+Version: 2.0.0 - Complete Implementation
+=======
 DYNAMIC KELLY POSITION SIZING - COMPLETE PROFESSIONAL VERSION
 ===============================================================
 Advanced Kelly Criterion Position Sizing System - ALL FEATURES
@@ -13,6 +24,7 @@ Advanced Kelly Criterion Position Sizing System - ALL FEATURES
 - ENHANCED POSITION SIZING - Fixes 0.01 lot issue
 
 Version: 2.1.0 - Complete Professional Implementation with Enhanced Sizing
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 ===============================================================
 """
 
@@ -24,21 +36,33 @@ from typing import Dict, List, Optional, Any, Union, Tuple
 from dataclasses import dataclass, field
 from collections import deque, defaultdict
 import warnings
+<<<<<<< HEAD
+
+=======
 from scipy import stats
 from scipy.optimize import minimize
 import json
 
 # Suppress warnings for cleaner output
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 warnings.filterwarnings('ignore', category=FutureWarning)
 warnings.filterwarnings('ignore', category=UserWarning)
 
 # ============================================================================
+<<<<<<< HEAD
+# DATA STRUCTURES FOR KELLY POSITION SIZING
+=======
 # ADVANCED DATA STRUCTURES FOR PROFESSIONAL KELLY SYSTEM
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 # ============================================================================
 
 @dataclass
 class TradeHistory:
+<<<<<<< HEAD
+    """Individual trade record for Kelly calculations"""
+=======
     """Enhanced trade record with advanced metrics"""
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     entry_time: datetime
     exit_time: datetime
     symbol: str
@@ -50,6 +74,9 @@ class TradeHistory:
     pnl_percentage: float
     hold_time_hours: float
     strategy: str
+<<<<<<< HEAD
+    market_conditions: str = 'normal'
+=======
     market_conditions: str
     
     # Advanced metrics
@@ -58,6 +85,7 @@ class TradeHistory:
     volatility_during_trade: float = 0.0
     correlation_impact: float = 0.0
     market_regime: str = 'normal'
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     win: bool = field(init=False)
     
     def __post_init__(self):
@@ -65,7 +93,11 @@ class TradeHistory:
 
 @dataclass
 class RiskMetrics:
+<<<<<<< HEAD
+    """Risk metrics for Kelly calculations"""
+=======
     """Comprehensive risk metrics for advanced Kelly calculations"""
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     win_rate: float
     avg_win: float
     avg_loss: float
@@ -74,6 +106,12 @@ class RiskMetrics:
     max_drawdown: float
     volatility: float
     confidence_interval: float
+<<<<<<< HEAD
+
+@dataclass
+class PositionSizingResult:
+    """Result of Kelly position sizing calculation"""
+=======
     
     # Advanced metrics
     calmar_ratio: float = 0.0
@@ -87,6 +125,7 @@ class RiskMetrics:
 @dataclass
 class PositionSizingResult:
     """Enhanced position sizing result with comprehensive analysis"""
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     recommended_size: float
     kelly_fraction: float
     confidence_multiplier: float
@@ -95,6 +134,12 @@ class PositionSizingResult:
     correlation_adjustment: float
     final_risk_percentage: float
     reasoning: str
+<<<<<<< HEAD
+    risk_metrics: Optional[RiskMetrics] = None
+
+# ============================================================================
+# ENHANCED POSITION SIZING LOGIC - FIXES 0.01 LOT ISSUE
+=======
     
     # Advanced analysis
     monte_carlo_confidence: float = 0.0
@@ -481,27 +526,54 @@ class MonteCarloValidator:
 
 # ============================================================================
 # ENHANCED POSITION SIZING LOGIC - PROFESSIONAL INTEGRATION
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 # ============================================================================
 
 def calculate_enhanced_position_size(kelly_fraction: float, account_balance: float, 
                                    confidence: float, symbol: str = "EURUSD") -> float:
+<<<<<<< HEAD
+    """
+    Enhanced position sizing to avoid constant 0.01 lots
+    ADDRESSES THE 0.01 LOT ISSUE SPECIFICALLY
+    """
+=======
     """Enhanced position sizing to avoid constant 0.01 lots - PROFESSIONAL VERSION"""
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     
     try:
         # Base calculation
         base_risk = account_balance * kelly_fraction
         
+<<<<<<< HEAD
+        # Enhanced scaling for larger positions - CRITICAL FIX
+        if account_balance > 50000:  # For accounts > $50k
+            # Scale up the risk percentage based on confidence
+            enhanced_multiplier = 1.5 + (confidence - 0.5) * 2.0  # 1.0 to 2.5 range
+            enhanced_multiplier = max(1.0, min(3.0, enhanced_multiplier))  # Safety bounds
+=======
         # Enhanced scaling for larger positions
         if account_balance > 50000:  # For accounts > $50k
             # Scale up the risk percentage based on confidence
             enhanced_multiplier = 1.0 + (confidence - 0.5) * 2.0  # 1.0 to 2.0 range
             enhanced_multiplier = max(0.8, min(2.5, enhanced_multiplier))  # Safety bounds
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
             
             enhanced_risk = base_risk * enhanced_multiplier
             
             # Convert to position size with better logic
             position_size = enhanced_risk / 100000  # Standard conversion
             
+<<<<<<< HEAD
+            # Apply intelligent bounds based on account size - INCREASED MINIMUMS
+            min_size = 0.03 if account_balance > 75000 else 0.02  # INCREASED from 0.015
+            max_size = min(0.20, account_balance / 400000)  # Dynamic max based on balance
+            
+            # Symbol-specific adjustments
+            symbol_multipliers = {
+                'EURUSD': 1.0, 'GBPUSD': 0.95, 'USDJPY': 1.05,
+                'USDCHF': 1.0, 'XAUUSD': 0.85, 'GOLD': 0.85,
+                'AUDUSD': 0.98, 'NZDUSD': 0.96, 'USDCAD': 1.02
+=======
             # Apply intelligent bounds based on account size
             min_size = 0.02 if account_balance > 75000 else 0.015
             max_size = min(0.20, account_balance / 500000)  # Dynamic max based on balance
@@ -512,6 +584,7 @@ def calculate_enhanced_position_size(kelly_fraction: float, account_balance: flo
                 'USDCHF': 1.0, 'XAUUSD': 0.85, 'GOLD': 0.85,
                 'AUDUSD': 0.98, 'NZDUSD': 0.96, 'USDCAD': 1.02,
                 'EURJPY': 0.92, 'GBPJPY': 0.88, 'EURGBP': 0.94
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
             }
             symbol_mult = symbol_multipliers.get(symbol, 1.0)
             
@@ -520,6 +593,16 @@ def calculate_enhanced_position_size(kelly_fraction: float, account_balance: flo
             
             return round(final_size, 3)  # More precision
         
+<<<<<<< HEAD
+        # Enhanced fallback for smaller accounts - ALSO INCREASED
+        fallback_multiplier = 1.5 + (confidence - 0.5)  # 1.0 to 2.0 range  
+        fallback_risk = base_risk * fallback_multiplier
+        fallback_size = fallback_risk / 100000
+        
+        # Account size-based minimum adjustment - INCREASED MINIMUMS
+        min_fallback = 0.02 if account_balance > 25000 else 0.015  # INCREASED
+        max_fallback = 0.15 if account_balance > 25000 else 0.10
+=======
         # Enhanced fallback for smaller accounts
         fallback_multiplier = 1.2 + (confidence - 0.5)  # 0.7 to 1.7 range  
         fallback_risk = base_risk * fallback_multiplier
@@ -528,11 +611,19 @@ def calculate_enhanced_position_size(kelly_fraction: float, account_balance: flo
         # Account size-based minimum adjustment
         min_fallback = 0.015 if account_balance > 25000 else 0.01
         max_fallback = 0.12 if account_balance > 25000 else 0.08
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
         
         return max(min_fallback, min(max_fallback, fallback_size))
         
     except Exception as e:
         print(f"Enhanced position sizing error: {e}")
+<<<<<<< HEAD
+        # Even fallback is increased
+        return max(0.02, min(0.05, account_balance * 0.02 / 100000))  # 2% risk minimum
+
+# ============================================================================
+# CORE KELLY CALCULATION FUNCTIONS
+=======
         return max(0.01, min(0.05, account_balance * 0.01 / 100000))
 
 def apply_enhanced_position_bounds(raw_size: float, account_balance: float, 
@@ -590,12 +681,25 @@ def apply_enhanced_position_bounds(raw_size: float, account_balance: float,
 
 # ============================================================================
 # ENHANCED CORE KELLY CALCULATION FUNCTIONS
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 # ============================================================================
 
 def calculate_dynamic_kelly_size(trades: List[TradeHistory], 
                                 current_balance: float,
                                 symbol: str,
                                 confidence: float = 0.5,
+<<<<<<< HEAD
+                                safety_factor: float = 0.25) -> Tuple[float, Dict[str, Any]]:
+    """
+    Enhanced dynamic Kelly position size calculation
+    INTEGRATED WITH ENHANCED POSITION SIZING TO FIX 0.01 LOTS
+    """
+    try:
+        if not trades or len(trades) < 10:
+            # Use enhanced sizing even for insufficient data
+            enhanced_size = calculate_enhanced_position_size(0.02, current_balance, confidence, symbol)
+            return enhanced_size, {'method': 'enhanced_insufficient_data'}
+=======
                                 safety_factor: float = 0.25,
                                 correlation_analyzer: AdvancedCorrelationAnalyzer = None,
                                 drawdown_protection: AdvancedDrawdownProtection = None,
@@ -612,6 +716,7 @@ def calculate_dynamic_kelly_size(trades: List[TradeHistory],
         if not trades or len(trades) < 10:
             base_size = current_balance * 0.01
             return max(0.01, min(0.05, base_size / 100000)), {'method': 'insufficient_data'}
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
         
         # Filter relevant trades
         symbol_trades = [t for t in trades if t.symbol == symbol]
@@ -626,14 +731,35 @@ def calculate_dynamic_kelly_size(trades: List[TradeHistory],
         losses = [t for t in relevant_trades if not t.win]
         
         if not wins or not losses:
+<<<<<<< HEAD
+            enhanced_size = calculate_enhanced_position_size(0.025, current_balance, confidence, symbol)
+            return enhanced_size, {'method': 'enhanced_insufficient_outcomes'}
+=======
             base_size = current_balance * 0.015
             return max(0.01, min(0.05, base_size / 100000)), {'method': 'insufficient_outcomes'}
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
         
         # Enhanced Kelly calculation with risk metrics
         win_rate = len(wins) / len(relevant_trades)
         avg_win = np.mean([t.pnl_percentage for t in wins])
         avg_loss = abs(np.mean([t.pnl_percentage for t in losses]))
         
+<<<<<<< HEAD
+        # Calculate Kelly fraction
+        if avg_loss > 0:
+            odds_ratio = avg_win / avg_loss
+            kelly_fraction = (win_rate * odds_ratio - (1 - win_rate)) / odds_ratio
+        else:
+            kelly_fraction = 0.02
+        
+        # Apply safety factor and confidence
+        adjusted_kelly = kelly_fraction * safety_factor * (0.5 + confidence * 0.5)
+        adjusted_kelly = max(0.01, min(0.10, adjusted_kelly))  # Reasonable bounds
+        
+        # *** USE ENHANCED POSITION SIZING - CRITICAL FIX ***
+        enhanced_position_size = calculate_enhanced_position_size(
+            kelly_fraction=adjusted_kelly,
+=======
         # Calculate multiple Kelly variants
         simple_kelly = (win_rate * avg_win - (1 - win_rate) * avg_loss) / avg_win if avg_win > 0 else 0
         
@@ -689,11 +815,19 @@ def calculate_dynamic_kelly_size(trades: List[TradeHistory],
         # Use the new enhanced function instead of simple conversion
         enhanced_position_size = calculate_enhanced_position_size(
             kelly_fraction=final_kelly,
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
             account_balance=current_balance,
             confidence=confidence,
             symbol=symbol
         )
         
+<<<<<<< HEAD
+        # Compile detailed metrics
+        detailed_metrics = {
+            'method': 'enhanced_kelly_professional',
+            'base_kelly_fraction': kelly_fraction,
+            'final_kelly_fraction': adjusted_kelly,
+=======
         # Apply enhanced bounds with market data
         market_volatility = 0.001  # Default, should be passed from market data
         # Get volatility from recent trades if available
@@ -715,11 +849,31 @@ def calculate_dynamic_kelly_size(trades: List[TradeHistory],
             'adjustments': adjustments,
             'total_adjustment': total_adjustment,
             'risk_amount': final_position_size * 100000,
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
             'win_rate': win_rate,
             'avg_win': avg_win,
             'avg_loss': avg_loss,
             'num_trades_analyzed': len(relevant_trades),
             'confidence_used': confidence,
+<<<<<<< HEAD
+            'enhanced_sizing_used': True,
+            'final_enhanced_size': enhanced_position_size
+        }
+        
+        return enhanced_position_size, detailed_metrics
+        
+    except Exception as e:
+        # Enhanced fallback
+        enhanced_fallback = calculate_enhanced_position_size(0.02, current_balance, confidence, symbol)
+        return enhanced_fallback, {'method': 'enhanced_error_fallback', 'error': str(e)}
+
+# ============================================================================
+# KELLY POSITION MANAGER CLASS
+# ============================================================================
+
+class KellyPositionManager:
+    """Professional Kelly Criterion Position Manager with enhanced sizing"""
+=======
             
             # Enhanced sizing metrics
             'enhanced_sizing_used': True,
@@ -743,6 +897,7 @@ def calculate_dynamic_kelly_size(trades: List[TradeHistory],
 
 class KellyPositionManager:
     """Enhanced professional Kelly Criterion Position Manager with all advanced features"""
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     
     def __init__(self, config: Dict[str, Any]):
         self.config = config
@@ -755,6 +910,16 @@ class KellyPositionManager:
         self.min_trades = config.get('min_trades_for_kelly', 10)
         self.max_kelly_fraction = config.get('max_kelly_fraction', 0.20)
         self.kelly_multiplier = config.get('kelly_multiplier', 0.5)
+<<<<<<< HEAD
+        self.base_risk = config.get('base_risk_percent', 0.025)  # INCREASED from 0.015
+        
+        print(f"✅ Enhanced Kelly Position Manager initialized")
+        print(f"   Lookback: {self.kelly_lookback} trades")
+        print(f"   Min trades: {self.min_trades}")  
+        print(f"   Max Kelly: {self.max_kelly_fraction}")
+        print(f"   Safety multiplier: {self.kelly_multiplier}")
+        print(f"   🚀 Enhanced Position Sizing: ACTIVE (fixes 0.01 lot issue)")
+=======
         self.base_risk = config.get('base_risk_percent', 0.015)
         
         # Initialize advanced components
@@ -767,28 +932,47 @@ class KellyPositionManager:
         print(f"   Lookback: {self.kelly_lookback} trades")
         print(f"   Advanced features: Correlation, Drawdown, Regime, Monte Carlo")
         print(f"   🚀 Enhanced Position Sizing: ACTIVE")
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     
     def calculate_position_size(self, symbol: str, confidence: float, 
                               expected_return: float, risk_level: float,
                               account_balance: float, market_regime: str = 'normal',
                               current_positions: Dict[str, float] = None) -> Dict[str, Any]:
+<<<<<<< HEAD
+        """Enhanced position size calculation with all advanced features"""
+=======
         """Enhanced position size calculation with all advanced features - INTEGRATED ENHANCED SIZING"""
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
         try:
             trades = list(self.trade_history)
             
             if len(trades) < self.min_trades:
+<<<<<<< HEAD
+                # Use enhanced sizing even for insufficient data
+                enhanced_size = calculate_enhanced_position_size(
+                    kelly_fraction=self.base_risk,
+=======
                 # Insufficient data - use enhanced conservative sizing with regime adjustment
                 regime_adj = self.regime_detector.get_regime_adjustment(symbol)
                 
                 # Use enhanced sizing even for fallback
                 enhanced_fallback_size = calculate_enhanced_position_size(
                     kelly_fraction=self.base_risk * regime_adj,
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
                     account_balance=account_balance,
                     confidence=confidence,
                     symbol=symbol
                 )
                 
                 return {
+<<<<<<< HEAD
+                    'position_size': enhanced_size,
+                    'kelly_fraction': self.base_risk,
+                    'confidence_adjustment': 0.5 + confidence * 0.5,
+                    'risk_amount': enhanced_size * 100000,
+                    'method': 'enhanced_conservative',
+                    'enhanced_sizing_active': True
+=======
                     'position_size': enhanced_fallback_size,
                     'kelly_fraction': self.base_risk * regime_adj,
                     'confidence_adjustment': 0.5 + confidence * 0.5,
@@ -796,6 +980,7 @@ class KellyPositionManager:
                     'method': 'enhanced_conservative_with_regime',
                     'regime_adjustment': regime_adj,
                     'enhanced_sizing_applied': True
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
                 }
             
             # Use enhanced Kelly calculation with all features
@@ -804,6 +989,13 @@ class KellyPositionManager:
                 current_balance=account_balance,
                 symbol=symbol,
                 confidence=confidence,
+<<<<<<< HEAD
+                safety_factor=self.kelly_multiplier
+            )
+            
+            # Apply final bounds
+            final_position_size = max(0.02, min(0.20, position_size))  # INCREASED minimum
+=======
                 safety_factor=self.kelly_multiplier,
                 correlation_analyzer=self.correlation_analyzer,
                 drawdown_protection=self.drawdown_protection,
@@ -850,12 +1042,18 @@ class KellyPositionManager:
             
             # Final bounds and packaging
             final_position_size = max(0.01, min(0.20, position_size))  # Increased max for enhanced sizing
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
             final_risk_amount = final_position_size * 100000
             
             return {
                 'position_size': final_position_size,
+<<<<<<< HEAD
+                'kelly_fraction': detailed_metrics.get('final_kelly_fraction', self.base_risk),
+                'confidence_adjustment': detailed_metrics.get('confidence_used', confidence),
+=======
                 'kelly_fraction': kelly_fraction,
                 'confidence_adjustment': detailed_metrics.get('adjustments', {}).get('confidence', 1.0),
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
                 'risk_amount': final_risk_amount,
                 'method': 'enhanced_kelly_professional_integrated',
                 'detailed_metrics': detailed_metrics,
@@ -878,6 +1076,14 @@ class KellyPositionManager:
                 'risk_amount': enhanced_fallback_size * 100000,
                 'method': 'enhanced_fallback_error',
                 'error': str(e),
+<<<<<<< HEAD
+                'enhanced_sizing_active': True
+            }
+    
+    def add_trade_result(self, trade_data: Dict[str, Any]):
+        """Add completed trade to Kelly learning system"""
+        try:
+=======
                 'enhanced_sizing_applied': True
             }
     
@@ -889,6 +1095,7 @@ class KellyPositionManager:
             mae = trade_data.get('max_adverse_excursion', 0.0)
             vol_during_trade = trade_data.get('volatility_during_trade', 0.0)
             
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
             trade = TradeHistory(
                 entry_time=datetime.now() - timedelta(hours=trade_data.get('hold_time_hours', 1)),
                 exit_time=trade_data.get('exit_time', datetime.now()),
@@ -901,6 +1108,16 @@ class KellyPositionManager:
                 pnl_percentage=trade_data['pnl_percentage'],
                 hold_time_hours=trade_data.get('hold_time_hours', 1.0),
                 strategy=trade_data.get('strategy', 'unknown'),
+<<<<<<< HEAD
+                market_conditions=trade_data.get('market_conditions', 'normal')
+            )
+            
+            self.trade_history.append(trade)
+            self._update_enhanced_performance_metrics()
+            
+        except Exception as e:
+            print(f"Error adding trade result: {e}")
+=======
                 market_conditions=trade_data.get('market_conditions', 'normal'),
                 max_favorable_excursion=mfe,
                 max_adverse_excursion=mae,
@@ -925,6 +1142,7 @@ class KellyPositionManager:
             
         except Exception as e:
             print(f"Error adding enhanced trade result: {e}")
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     
     def _update_enhanced_performance_metrics(self):
         """Update comprehensive performance metrics"""
@@ -937,12 +1155,18 @@ class KellyPositionManager:
             losses = [t for t in trades if not t.win]
             
             if wins and losses:
+<<<<<<< HEAD
+=======
                 # Basic metrics
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
                 win_rate = len(wins) / len(trades)
                 avg_win = np.mean([t.pnl_percentage for t in wins])
                 avg_loss = abs(np.mean([t.pnl_percentage for t in losses]))
                 total_pnl = sum([t.pnl for t in trades])
                 
+<<<<<<< HEAD
+                # Calculate enhanced Kelly criterion
+=======
                 # Advanced metrics
                 returns = [t.pnl_percentage for t in trades]
                 
@@ -964,6 +1188,7 @@ class KellyPositionManager:
                 profit_factor = gross_profit / gross_loss if gross_loss > 0 else 0.0
                 
                 # Kelly criterion
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
                 if avg_loss > 0:
                     kelly_criterion = (win_rate * avg_win / avg_loss - (1 - win_rate)) * avg_loss / avg_win
                 else:
@@ -975,6 +1200,12 @@ class KellyPositionManager:
                     'avg_win': avg_win,
                     'avg_loss': avg_loss,
                     'total_pnl': total_pnl,
+<<<<<<< HEAD
+                    'kelly_criterion': kelly_criterion,
+                    'last_updated': datetime.now(),
+                    'enhanced_sizing_active': True,
+                    'avg_position_size': np.mean([t.position_size for t in trades])
+=======
                     'sharpe_ratio': sharpe_ratio,
                     'max_drawdown': max_drawdown,
                     'profit_factor': profit_factor,
@@ -990,10 +1221,13 @@ class KellyPositionManager:
                     'avg_position_size': np.mean([t.position_size for t in trades]),
                     'position_size_variance': np.var([t.position_size for t in trades]),
                     'enhanced_sizing_efficiency': 1.0  # Placeholder for enhanced sizing analysis
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
                 }
         except Exception as e:
             print(f"Error updating enhanced performance metrics: {e}")
     
+<<<<<<< HEAD
+=======
     def _calculate_max_consecutive_losses(self, trades: List[TradeHistory]) -> int:
         """Calculate maximum consecutive losses"""
         max_consecutive = 0
@@ -1008,6 +1242,7 @@ class KellyPositionManager:
         
         return max_consecutive
     
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     def get_performance_stats(self) -> Dict[str, Any]:
         """Get comprehensive performance statistics"""
         try:
@@ -1016,25 +1251,41 @@ class KellyPositionManager:
                     'total_trades': len(self.trade_history),
                     'status': 'insufficient_data',
                     'message': 'Need more trades for meaningful statistics',
+<<<<<<< HEAD
+                    'enhanced_sizing_active': True
+                }
+            
+=======
                     'advanced_features_active': True,
                     'enhanced_position_sizing': True
                 }
             
             # Add current system states
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
             performance_stats = self.performance_metrics.copy()
             performance_stats.update({
                 'kelly_enabled': True,
                 'lookback_period': self.kelly_lookback,
+<<<<<<< HEAD
+                'enhanced_sizing_active': True
+=======
                 'advanced_features_active': True,
                 'enhanced_position_sizing': True,
                 'correlation_matrix_size': len(self.correlation_analyzer.correlation_matrix),
                 'current_drawdown': self.drawdown_protection.current_drawdown,
                 'regime_cache_size': len(self.regime_detector.regime_cache)
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
             })
             
             return performance_stats
             
         except Exception as e:
+<<<<<<< HEAD
+            return {'error': str(e), 'enhanced_sizing_active': True}
+    
+    def update_position(self, symbol: str, position_info: Dict[str, Any]):
+        """Enhanced position tracking"""
+=======
             return {
                 'error': str(e), 
                 'advanced_features_active': True,
@@ -1043,6 +1294,7 @@ class KellyPositionManager:
     
     def update_position(self, symbol: str, position_info: Dict[str, Any]):
         """Enhanced position tracking with correlation updates"""
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
         try:
             self.position_history[symbol] = {
                 'timestamp': position_info.get('timestamp', datetime.now()),
@@ -1050,6 +1302,17 @@ class KellyPositionManager:
                 'entry_price': position_info.get('entry_price', 0.0),
                 'risk_amount': position_info.get('risk_amount', 0.0)
             }
+<<<<<<< HEAD
+        except Exception as e:
+            print(f"Error updating position: {e}")
+
+# ============================================================================
+# PROFESSIONAL KELLY POSITION SIZER
+# ============================================================================
+
+class ProfessionalKellyPositionSizer:
+    """Ultimate professional-grade Kelly Criterion position sizer"""
+=======
             
             # Update correlation analyzer
             if 'entry_price' in position_info:
@@ -1066,11 +1329,15 @@ class KellyPositionManager:
 
 class ProfessionalKellyPositionSizer:
     """Ultimate professional-grade Kelly Criterion position sizer with all advanced features"""
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     
     def __init__(self, config: Dict[str, Any]):
         self.config = config
         self.kelly_manager = KellyPositionManager(config)
         
+<<<<<<< HEAD
+        print(f"✅ Ultimate Professional Kelly Position Sizer initialized")
+=======
         # Advanced parameters
         self.correlation_threshold = config.get('correlation_threshold', 0.7)
         self.volatility_lookback = config.get('volatility_lookback', 20)
@@ -1079,18 +1346,26 @@ class ProfessionalKellyPositionSizer:
         
         print(f"✅ Ultimate Professional Kelly Position Sizer initialized")
         print(f"   All advanced features active: Correlation, Drawdown, Regime, Monte Carlo")
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
         print(f"   🚀 Enhanced Position Sizing: FULLY INTEGRATED")
     
     def calculate_optimal_position_size(self, signal: Dict[str, Any], 
                                       account_balance: float,
                                       market_data: Dict[str, Any],
                                       current_positions: Dict[str, float] = None) -> PositionSizingResult:
+<<<<<<< HEAD
+        """Calculate ultimate optimal position size with enhanced Kelly analysis"""
+=======
         """Calculate ultimate optimal position size with all advanced Kelly analysis - ENHANCED INTEGRATION"""
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
         try:
             symbol = signal['symbol']
             confidence = signal.get('confidence', 0.5)
             strategy = signal.get('strategy', 'unknown')
             
+<<<<<<< HEAD
+            # Enhanced Kelly calculation
+=======
             # Update market regime detector with current data
             if 'ohlc' in market_data:
                 self.kelly_manager.regime_detector.update_market_data(symbol, market_data['ohlc'])
@@ -1099,17 +1374,27 @@ class ProfessionalKellyPositionSizer:
             regime_state = self.kelly_manager.regime_detector.detect_market_regime(symbol)
             
             # Enhanced Kelly calculation with all features
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
             kelly_result = self.kelly_manager.calculate_position_size(
                 symbol=symbol,
                 confidence=confidence,
                 expected_return=0.02,
                 risk_level=0.01,
                 account_balance=account_balance,
+<<<<<<< HEAD
+=======
                 market_regime=regime_state.regime,
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
                 current_positions=current_positions or {}
             )
             
             base_kelly_fraction = kelly_result['kelly_fraction']
+<<<<<<< HEAD
+            
+            # Enhanced position sizing integration
+            enhanced_position_size = calculate_enhanced_position_size(
+                kelly_fraction=base_kelly_fraction,
+=======
             detailed_metrics = kelly_result.get('detailed_metrics', {})
             
             # Enhanced volatility adjustment using ATR
@@ -1147,11 +1432,42 @@ class ProfessionalKellyPositionSizer:
             # Use enhanced position sizing instead of simple conversion
             enhanced_position_size = calculate_enhanced_position_size(
                 kelly_fraction=adjusted_kelly_fraction,
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
                 account_balance=account_balance,
                 confidence=confidence,
                 symbol=symbol
             )
             
+<<<<<<< HEAD
+            # Final sizing with bounds
+            final_position_size = max(0.02, min(0.20, enhanced_position_size))
+            final_risk_percentage = (final_position_size * 100000) / account_balance
+            
+            # Generate reasoning
+            reasoning = f"Enhanced Kelly: {base_kelly_fraction:.3f} | " \
+                       f"Confidence: {confidence:.3f} | " \
+                       f"Final: {final_position_size:.3f} | " \
+                       f"Strategy: {strategy}"
+            
+            return PositionSizingResult(
+                recommended_size=final_position_size,
+                kelly_fraction=base_kelly_fraction,
+                confidence_multiplier=0.7 + (confidence * 0.6),
+                volatility_adjustment=1.0,
+                drawdown_adjustment=1.0,
+                correlation_adjustment=1.0,
+                final_risk_percentage=final_risk_percentage,
+                reasoning=reasoning
+            )
+            
+        except Exception as e:
+            # Enhanced fallback result
+            fallback_size = calculate_enhanced_position_size(0.025, account_balance, confidence, symbol)
+            
+            return PositionSizingResult(
+                recommended_size=fallback_size,
+                kelly_fraction=0.025,
+=======
             # Apply enhanced bounds with market volatility
             atr = market_data.get('atr', 0.001)
             final_position_size = apply_enhanced_position_bounds(
@@ -1227,11 +1543,23 @@ class ProfessionalKellyPositionSizer:
             return PositionSizingResult(
                 recommended_size=fallback_size,
                 kelly_fraction=0.015,
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
                 confidence_multiplier=1.0,
                 volatility_adjustment=1.0,
                 drawdown_adjustment=1.0,
                 correlation_adjustment=1.0,
                 final_risk_percentage=(fallback_size * 100000) / account_balance,
+<<<<<<< HEAD
+                reasoning=f"Enhanced fallback due to error: {str(e)}"
+            )
+
+# ============================================================================
+# UTILITY FUNCTIONS
+# ============================================================================
+
+def calculate_kelly_fraction(win_rate: float, avg_win: float, avg_loss: float) -> float:
+    """Calculate basic Kelly fraction"""
+=======
                 reasoning=f"Enhanced fallback due to error: {str(e)}",
                 monte_carlo_confidence=0.5,
                 expected_return=0.0,
@@ -1317,10 +1645,100 @@ class ProfessionalKellyPositionSizer:
 def calculate_kelly_fraction(win_rate: float, avg_win: float, avg_loss: float, 
                            advanced_adjustment: bool = True) -> float:
     """Enhanced Kelly fraction calculation with advanced features"""
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
     try:
         if avg_loss <= 0:
             return 0.0
         
+<<<<<<< HEAD
+        odds_ratio = avg_win / avg_loss
+        kelly_fraction = (win_rate * odds_ratio - (1 - win_rate)) / odds_ratio
+        
+        return max(0.0, min(0.25, kelly_fraction))
+    except:
+        return 0.0
+
+def validate_kelly_inputs(trades: List[TradeHistory], min_trades: int = 10) -> bool:
+    """Validate Kelly calculation inputs"""
+    try:
+        if not trades or len(trades) < min_trades:
+            return False
+        
+        # Check for valid trade data
+        for trade in trades[-10:]:
+            if not all([
+                hasattr(trade, 'pnl'),
+                hasattr(trade, 'win'),
+                hasattr(trade, 'symbol')
+            ]):
+                return False
+        
+        return True
+    except:
+        return False
+
+# ============================================================================
+# TESTING FUNCTION
+# ============================================================================
+
+def test_enhanced_kelly_functions():
+    """Test enhanced Kelly position sizing functions"""
+    print("🧪 Testing Enhanced Kelly Position Sizing Functions...")
+    
+    try:
+        # Test enhanced position sizing with different account sizes
+        test_cases = [
+            {'balance': 50000, 'confidence': 0.65, 'kelly': 0.025},
+            {'balance': 100000, 'confidence': 0.75, 'kelly': 0.035},
+            {'balance': 150000, 'confidence': 0.55, 'kelly': 0.015}
+        ]
+        
+        print(f"Enhanced Position Sizing Tests:")
+        for i, case in enumerate(test_cases, 1):
+            enhanced_size = calculate_enhanced_position_size(
+                kelly_fraction=case['kelly'],
+                account_balance=case['balance'],
+                confidence=case['confidence'],
+                symbol='EURUSD'
+            )
+            print(f"   Test {i}: ${case['balance']:,} @ {case['confidence']:.2f} conf → {enhanced_size:.4f} lots")
+            
+            # Verify it's not stuck at 0.01
+            if enhanced_size > 0.015:
+                print(f"      ✅ Enhanced sizing working (> 0.015 lots)")
+            else:
+                print(f"      ⚠️ Size might be too small: {enhanced_size:.4f}")
+        
+        # Test Kelly Manager
+        print(f"\nKelly Manager Test:")
+        config = {
+            'kelly_lookback_period': 50,
+            'kelly_multiplier': 0.5,
+            'max_kelly_fraction': 0.08,
+            'base_risk_percent': 0.025
+        }
+        
+        manager = KellyPositionManager(config)
+        result = manager.calculate_position_size('EURUSD', 0.75, 0.02, 0.02, 100000)
+        
+        print(f"   Position Size: {result['position_size']:.4f} lots")
+        print(f"   Enhanced Active: {result.get('enhanced_sizing_active', False)}")
+        
+        if result['position_size'] >= 0.02:
+            print(f"   ✅ Kelly system working correctly")
+        else:
+            print(f"   ⚠️ Position size too small: {result['position_size']:.4f}")
+        
+        print(f"\n🎉 Enhanced Kelly tests completed!")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Enhanced Kelly test failed: {e}")
+        return False
+
+if __name__ == "__main__":
+    test_enhanced_kelly_functions()
+=======
         # Basic Kelly
         odds_ratio = avg_win / avg_loss
         basic_kelly = (win_rate * odds_ratio - (1 - win_rate)) / odds_ratio
@@ -1589,3 +2007,4 @@ def test_all_kelly_functions():
 
 if __name__ == "__main__":
     test_all_kelly_functions()
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3

@@ -9,7 +9,67 @@ import numpy as np
 from typing import Dict, Any, Optional
 from .base_strategy import BaseStrategy, register_strategy
 
+<<<<<<< HEAD
+# Import base strategy and event system
+from base_strategy import BaseStrategy, SignalEvent, register_strategy
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+warnings.filterwarnings('ignore')
+
+class MeanReversionType(Enum):
+    """Types of mean reversion strategies"""
+    BOLLINGER_BANDS = "bollinger_bands"
+    RSI_DIVERGENCE = "rsi_divergence"
+    STATISTICAL_ARBITRAGE = "statistical_arbitrage"
+    PRICE_CHANNEL = "price_channel"
+    ZSCORE_REVERSION = "zscore_reversion"
+    PAIRS_TRADING = "pairs_trading"
+
+class ReversionStrength(Enum):
+    """Mean reversion signal strength levels"""
+    WEAK = 0.3
+    MODERATE = 0.5
+    STRONG = 0.7
+    VERY_STRONG = 0.9
+
+class MarketCondition(Enum):
+    """Market conditions for mean reversion"""
+    RANGING = "ranging"
+    TRENDING_UP = "trending_up"
+    TRENDING_DOWN = "trending_down"
+    HIGH_VOLATILITY = "high_volatility"
+    LOW_VOLATILITY = "low_volatility"
+    OVERSOLD_BOUNCE = "oversold_bounce"
+    OVERBOUGHT_DECLINE = "overbought_decline"
+
+@dataclass
+class MeanReversionSignal:
+    """Enhanced mean reversion signal with comprehensive metadata"""
+    timestamp: datetime
+    symbol: str
+    timeframe: str
+    direction: str  # 'bullish', 'bearish', 'neutral'
+    strength: float  # 0.0 to 1.0
+    reversion_type: MeanReversionType
+    entry_price: float
+    target_price: float
+    stop_loss: float
+    confidence: float
+    market_condition: MarketCondition
+    indicators_confluence: List[str]
+    statistical_significance: float
+    distance_from_mean: float
+    volatility_adjusted_score: float
+    risk_reward_ratio: float
+    time_horizon: str  # Expected reversion timeframe
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+@register_strategy
+=======
 @register_strategy  
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 class EnhancedMeanReversionStrategy(BaseStrategy):
     """Enhanced EnhancedMeanReversionStrategy with aggressive signal generation"""
     
@@ -197,5 +257,13 @@ class EnhancedMeanReversionStrategy(BaseStrategy):
             'metadata': {'strategy_type': self.strategy_type, 'error_fallback': True}
         }
 
+<<<<<<< HEAD
+# Export the enhanced strategy
+__all__ = ['EnhancedMeanReversionStrategy', 'MeanReversionType', 'MarketCondition', 'MeanReversionSignal']
+
+# Compatibility alias
+MeanReversionStrategy = EnhancedMeanReversionStrategy
+=======
 # Export for backwards compatibility
 MeanReversionStrategy = EnhancedMeanReversionStrategy  # Alias for import compatibility
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3

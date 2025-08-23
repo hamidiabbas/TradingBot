@@ -1,0 +1,15 @@
+{
+  "strategy_name": "MomentumScalpingStrategy",
+  "strategy_interfaces": [
+    "simple_analyze"
+  ],
+  "symbol": "EURUSD",
+  "timeframe": "H1",
+  "performance_metrics": "PortfolioMetrics(total_return=np.float64(0.012883640774175198), net_profit=np.float64(1288.3640774175199), sharpe_ratio=np.float64(0.1130767068833542), max_drawdown=np.float64(-0.010657253931758799), total_trades=49, win_rate=0.3877551020408163, profit_factor=np.float64(2.1331218061783326), avg_trade=np.float64(26.29314443709224), avg_winner=np.float64(261.00821240540307), avg_loser=np.float64(-122.35973194283794), largest_winner=np.float64(432.66234957261673), largest_loser=np.float64(-206.69080159019987), winning_trades=19, losing_trades=30, volatility=0.0)",
+  "total_signals": 49,
+  "completed_trades": 49,
+  "strategy_errors": [],
+  "data_bars": 17521,
+  "data_source": "File/Synthetic",
+  "runtime_seconds": 6.8593056201934814
+}

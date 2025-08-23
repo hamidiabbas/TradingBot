@@ -6,9 +6,106 @@ Automatically generated clean version with working analyze method
 
 from typing import Dict, List, Any
 import pandas as pd
+<<<<<<< HEAD
+import warnings
+from collections import defaultdict, deque
+from scipy import stats
+import math
+
+# Import base strategy and event system
+from base_strategy import BaseStrategy, SignalEvent, register_strategy
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+warnings.filterwarnings('ignore')
+
+class PivotType(Enum):
+    """Types of pivot point calculations"""
+    STANDARD = "standard"
+    FIBONACCI = "fibonacci"
+    CAMARILLA = "camarilla"
+    WOODIE = "woodie"
+    DEMARK = "demark"
+    CLASSIC = "classic"
+
+class PivotLevel(Enum):
+    """Pivot point levels"""
+    PP = "pivot_point"      # Main pivot point
+    R1 = "resistance_1"     # First resistance
+    R2 = "resistance_2"     # Second resistance  
+    R3 = "resistance_3"     # Third resistance
+    S1 = "support_1"        # First support
+    S2 = "support_2"        # Second support
+    S3 = "support_3"        # Third support
+
+class PivotAction(Enum):
+    """Pivot-based trading actions"""
+    BOUNCE_BUY = "bounce_buy"           # Buy on support bounce
+    BOUNCE_SELL = "bounce_sell"         # Sell on resistance bounce
+    BREAKOUT_BUY = "breakout_buy"       # Buy on resistance breakout
+    BREAKDOWN_SELL = "breakdown_sell"   # Sell on support breakdown
+    RETEST_BUY = "retest_buy"          # Buy on successful retest
+    RETEST_SELL = "retest_sell"        # Sell on successful retest
+
+class MarketSession(Enum):
+    """Market trading sessions for pivot calculation"""
+    DAILY = "daily"
+    WEEKLY = "weekly"
+    MONTHLY = "monthly"
+    SESSION_BASED = "session_based"
+
+@dataclass
+class PivotPointData:
+    """Enhanced pivot point data structure"""
+    timestamp: datetime
+    pivot_type: PivotType
+    session_type: MarketSession
+    pivot_point: float
+    resistance_1: float
+    resistance_2: float
+    resistance_3: float
+    support_1: float
+    support_2: float
+    support_3: float
+    high: float
+    low: float
+    close: float
+    volume: Optional[float] = None
+    strength_score: float = 0.0
+    confidence: float = 0.0
+    market_structure: str = "neutral"
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+@dataclass
+class PivotSignal:
+    """Enhanced pivot signal with comprehensive analysis"""
+    timestamp: datetime
+    symbol: str
+    timeframe: str
+    direction: str  # 'bullish', 'bearish'
+    strength: float  # 0.0 to 1.0
+    pivot_action: PivotAction
+    pivot_level: PivotLevel
+    pivot_value: float
+    entry_price: float
+    target_price: float
+    stop_loss: float
+    confidence: float
+    pivot_data: PivotPointData
+    volume_confirmation: bool
+    multi_timeframe_alignment: bool
+    risk_reward_ratio: float
+    expected_move: float
+    level_strength: float
+    touches_count: int
+    age_hours: float
+    metadata: Dict[str, Any] = field(default_factory=dict)
+=======
 import numpy as np
 from typing import Dict, Any, Optional
 from .base_strategy import BaseStrategy, register_strategy
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 
 @register_strategy
 class EnhancedPivotPointStrategy(BaseStrategy):

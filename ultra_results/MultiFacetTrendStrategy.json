@@ -1,0 +1,164 @@
+{
+  "strategy_name": "MultiFacetTrendStrategy",
+  "strategy_type": "simple",
+  "symbol": "EURUSD",
+  "timeframe": "H1",
+  "performance_metrics": "PortfolioMetrics(total_return=0.0, net_profit=0.0, sharpe_ratio=0.0, max_drawdown=0.0, total_trades=0, win_rate=0.0, profit_factor=0.0, avg_trade=0.0, avg_winner=0.0, avg_loser=0.0, largest_winner=0.0, largest_loser=0.0, winning_trades=0, losing_trades=0, volatility=0.0)",
+  "total_signals": 0,
+  "trades": 0,
+  "strategy_errors": [],
+  "data_bars": 17521,
+  "equity_curve": [
+    {
+      "timestamp": "2024-12-29 19:00:00+00:00",
+      "equity": 100000,
+      "price": 0.56788
+    },
+    {
+      "timestamp": "2024-12-29 20:00:00+00:00",
+      "equity": 100000,
+      "price": 0.56854
+    },
+    {
+      "timestamp": "2024-12-29 21:00:00+00:00",
+      "equity": 100000,
+      "price": 0.5725
+    },
+    {
+      "timestamp": "2024-12-29 22:00:00+00:00",
+      "equity": 100000,
+      "price": 0.57737
+    },
+    {
+      "timestamp": "2024-12-29 23:00:00+00:00",
+      "equity": 100000,
+      "price": 0.57828
+    },
+    {
+      "timestamp": "2024-12-30 00:00:00+00:00",
+      "equity": 100000,
+      "price": 0.57716
+    },
+    {
+      "timestamp": "2024-12-30 01:00:00+00:00",
+      "equity": 100000,
+      "price": 0.57831
+    },
+    {
+      "timestamp": "2024-12-30 02:00:00+00:00",
+      "equity": 100000,
+      "price": 0.57884
+    },
+    {
+      "timestamp": "2024-12-30 03:00:00+00:00",
+      "equity": 100000,
+      "price": 0.57847
+    },
+    {
+      "timestamp": "2024-12-30 04:00:00+00:00",
+      "equity": 100000,
+      "price": 0.57334
+    },
+    {
+      "timestamp": "2024-12-30 05:00:00+00:00",
+      "equity": 100000,
+      "price": 0.57474
+    },
+    {
+      "timestamp": "2024-12-30 06:00:00+00:00",
+      "equity": 100000,
+      "price": 0.57344
+    },
+    {
+      "timestamp": "2024-12-30 07:00:00+00:00",
+      "equity": 100000,
+      "price": 0.57496
+    },
+    {
+      "timestamp": "2024-12-30 08:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58299
+    },
+    {
+      "timestamp": "2024-12-30 09:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58235
+    },
+    {
+      "timestamp": "2024-12-30 10:00:00+00:00",
+      "equity": 100000,
+      "price": 0.5843
+    },
+    {
+      "timestamp": "2024-12-30 11:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58707
+    },
+    {
+      "timestamp": "2024-12-30 12:00:00+00:00",
+      "equity": 100000,
+      "price": 0.59083
+    },
+    {
+      "timestamp": "2024-12-30 13:00:00+00:00",
+      "equity": 100000,
+      "price": 0.59125
+    },
+    {
+      "timestamp": "2024-12-30 14:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58824
+    },
+    {
+      "timestamp": "2024-12-30 15:00:00+00:00",
+      "equity": 100000,
+      "price": 0.59089
+    },
+    {
+      "timestamp": "2024-12-30 16:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58861
+    },
+    {
+      "timestamp": "2024-12-30 17:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58351
+    },
+    {
+      "timestamp": "2024-12-30 18:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58397
+    },
+    {
+      "timestamp": "2024-12-30 19:00:00+00:00",
+      "equity": 100000,
+      "price": 0.585
+    },
+    {
+      "timestamp": "2024-12-30 20:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58329
+    },
+    {
+      "timestamp": "2024-12-30 21:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58602
+    },
+    {
+      "timestamp": "2024-12-30 22:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58467
+    },
+    {
+      "timestamp": "2024-12-30 23:00:00+00:00",
+      "equity": 100000,
+      "price": 0.59329
+    },
+    {
+      "timestamp": "2024-12-31 00:00:00+00:00",
+      "equity": 100000,
+      "price": 0.58952
+    }
+  ],
+  "runtime_seconds": 11.457156896591187
+}

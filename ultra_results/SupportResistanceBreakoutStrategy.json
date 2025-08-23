@@ -1,0 +1,164 @@
+{
+  "strategy_name": "SupportResistanceBreakoutStrategy",
+  "strategy_type": "simple",
+  "symbol": "EURUSD",
+  "timeframe": "H1",
+  "performance_metrics": "PortfolioMetrics(total_return=0.0, net_profit=0.0, sharpe_ratio=0.0, max_drawdown=0.0, total_trades=0, win_rate=0.0, profit_factor=0.0, avg_trade=0.0, avg_winner=0.0, avg_loser=0.0, largest_winner=0.0, largest_loser=0.0, winning_trades=0, losing_trades=0, volatility=0.0)",
+  "total_signals": 0,
+  "trades": 0,
+  "strategy_errors": [],
+  "data_bars": 17521,
+  "equity_curve": [
+    {
+      "timestamp": "2024-12-29 19:00:00+00:00",
+      "equity": 100000,
+      "price": 6.99711
+    },
+    {
+      "timestamp": "2024-12-29 20:00:00+00:00",
+      "equity": 100000,
+      "price": 6.96944
+    },
+    {
+      "timestamp": "2024-12-29 21:00:00+00:00",
+      "equity": 100000,
+      "price": 6.95772
+    },
+    {
+      "timestamp": "2024-12-29 22:00:00+00:00",
+      "equity": 100000,
+      "price": 6.94
+    },
+    {
+      "timestamp": "2024-12-29 23:00:00+00:00",
+      "equity": 100000,
+      "price": 6.94516
+    },
+    {
+      "timestamp": "2024-12-30 00:00:00+00:00",
+      "equity": 100000,
+      "price": 7.00136
+    },
+    {
+      "timestamp": "2024-12-30 01:00:00+00:00",
+      "equity": 100000,
+      "price": 6.99848
+    },
+    {
+      "timestamp": "2024-12-30 02:00:00+00:00",
+      "equity": 100000,
+      "price": 6.97533
+    },
+    {
+      "timestamp": "2024-12-30 03:00:00+00:00",
+      "equity": 100000,
+      "price": 6.97843
+    },
+    {
+      "timestamp": "2024-12-30 04:00:00+00:00",
+      "equity": 100000,
+      "price": 6.97859
+    },
+    {
+      "timestamp": "2024-12-30 05:00:00+00:00",
+      "equity": 100000,
+      "price": 7.04808
+    },
+    {
+      "timestamp": "2024-12-30 06:00:00+00:00",
+      "equity": 100000,
+      "price": 7.10932
+    },
+    {
+      "timestamp": "2024-12-30 07:00:00+00:00",
+      "equity": 100000,
+      "price": 7.13131
+    },
+    {
+      "timestamp": "2024-12-30 08:00:00+00:00",
+      "equity": 100000,
+      "price": 7.1997
+    },
+    {
+      "timestamp": "2024-12-30 09:00:00+00:00",
+      "equity": 100000,
+      "price": 7.16134
+    },
+    {
+      "timestamp": "2024-12-30 10:00:00+00:00",
+      "equity": 100000,
+      "price": 7.19925
+    },
+    {
+      "timestamp": "2024-12-30 11:00:00+00:00",
+      "equity": 100000,
+      "price": 7.21886
+    },
+    {
+      "timestamp": "2024-12-30 12:00:00+00:00",
+      "equity": 100000,
+      "price": 7.2576
+    },
+    {
+      "timestamp": "2024-12-30 13:00:00+00:00",
+      "equity": 100000,
+      "price": 7.25061
+    },
+    {
+      "timestamp": "2024-12-30 14:00:00+00:00",
+      "equity": 100000,
+      "price": 7.30533
+    },
+    {
+      "timestamp": "2024-12-30 15:00:00+00:00",
+      "equity": 100000,
+      "price": 7.34865
+    },
+    {
+      "timestamp": "2024-12-30 16:00:00+00:00",
+      "equity": 100000,
+      "price": 7.39051
+    },
+    {
+      "timestamp": "2024-12-30 17:00:00+00:00",
+      "equity": 100000,
+      "price": 7.3435
+    },
+    {
+      "timestamp": "2024-12-30 18:00:00+00:00",
+      "equity": 100000,
+      "price": 7.30178
+    },
+    {
+      "timestamp": "2024-12-30 19:00:00+00:00",
+      "equity": 100000,
+      "price": 7.27871
+    },
+    {
+      "timestamp": "2024-12-30 20:00:00+00:00",
+      "equity": 100000,
+      "price": 7.22928
+    },
+    {
+      "timestamp": "2024-12-30 21:00:00+00:00",
+      "equity": 100000,
+      "price": 7.25229
+    },
+    {
+      "timestamp": "2024-12-30 22:00:00+00:00",
+      "equity": 100000,
+      "price": 7.21432
+    },
+    {
+      "timestamp": "2024-12-30 23:00:00+00:00",
+      "equity": 100000,
+      "price": 7.20222
+    },
+    {
+      "timestamp": "2024-12-31 00:00:00+00:00",
+      "equity": 100000,
+      "price": 7.18798
+    }
+  ],
+  "runtime_seconds": 5.386873006820679
+}

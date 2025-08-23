@@ -200,7 +200,7 @@ class AdvancedTechnicalIndicators:
             return False
             
         if data.isna().all():
-            self.logger.error("All data values are NaN")
+            self.logger.error("All data values are np.nan")
             return False
             
         return True
@@ -272,7 +272,7 @@ class AdvancedTechnicalIndicators:
                 'smoothing': smoothing,
                 'overbought_level': 70,
                 'oversold_level': 30,
-                'current_value': float(rsi_values.iloc[-1]) if not rsi_values.empty else np.nan,
+                'current_value': float(rsi_values.iloc[-1]) if not rsi_values.empty else np.np.nan,
                 'signal_strength': float(confidence.iloc[-1]) if not confidence.empty else 0.0,
                 'divergence_detected': bool(divergence_signals.abs().sum() > 0),
                 'extreme_readings': len(rsi_values[(rsi_values > 80) | (rsi_values < 20)])
@@ -480,9 +480,9 @@ class AdvancedTechnicalIndicators:
                 'slow_period': slow,
                 'signal_period': signal_period,
                 'macd_type': macd_type,
-                'current_macd': float(macd_line.iloc[-1]) if not macd_line.empty else np.nan,
-                'current_signal': float(signal_line.iloc[-1]) if not signal_line.empty else np.nan,
-                'current_histogram': float(histogram.iloc[-1]) if not histogram.empty else np.nan,
+                'current_macd': float(macd_line.iloc[-1]) if not macd_line.empty else np.np.nan,
+                'current_signal': float(signal_line.iloc[-1]) if not signal_line.empty else np.np.nan,
+                'current_histogram': float(histogram.iloc[-1]) if not histogram.empty else np.np.nan,
                 'momentum_strength': float(momentum_strength.iloc[-1]) if not momentum_strength.empty else 0.0,
                 'trend_strength': float(trend_strength.iloc[-1]) if not trend_strength.empty else 0.0,
                 'zero_line_position': 'above' if float(macd_line.iloc[-1]) > 0 else 'below',
@@ -675,8 +675,8 @@ class AdvancedTechnicalIndicators:
                 'd_period': d_period,
                 'smooth_k': smooth_k,
                 'stoch_type': stoch_type,
-                'current_k': float(k_values.iloc[-1]) if not k_values.empty else np.nan,
-                'current_d': float(d_values.iloc[-1]) if not d_values.empty else np.nan,
+                'current_k': float(k_values.iloc[-1]) if not k_values.empty else np.np.nan,
+                'current_d': float(d_values.iloc[-1]) if not d_values.empty else np.np.nan,
                 'position': self._get_stochastic_position(k_values.iloc[-1]) if not k_values.empty else 'neutral',
                 'momentum_strength': float(momentum.iloc[-1]) if not momentum.empty else 0.0,
                 'divergence_detected': bool(divergence_signals.abs().sum() > 0),

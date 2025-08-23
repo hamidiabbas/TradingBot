@@ -1,0 +1,12 @@
+strategy,interfaces,net_profit,return_%,total_trades,win_rate_%,sharpe_ratio,max_drawdown_%,profit_factor,signals,data_source,errors,runtime_s
+AdvancedGridTradingStrategy,simple_analyze,121.61970066600861,0.1216197006660086,100,31.0,0.006347925180705687,4.681910614330146,2.24414051577998,100,MT5-Compatible,0,26.88357400894165
+SecondaryStrategy,simple_analyze,0.0,0.0,0,0.0,0.0,0.0,0.0,0,MT5-Compatible,0,33.27986145019531
+PrimaryStrategy,simple_analyze,0.0,0.0,0,0.0,0.0,0.0,0.0,0,MT5-Compatible,0,32.28727436065674
+SignalEvent,unknown,0.0,0.0,0,0.0,0.0,0.0,0.0,0,MT5-Compatible,0,29.83806085586548
+StatefulStrategy,simple_analyze,0.0,0.0,0,0.0,0.0,0.0,0.0,0,MT5-Compatible,0,30.597673177719116
+StrategyState,unknown,0.0,0.0,0,0.0,0.0,0.0,0.0,0,MT5-Compatible,0,25.24604368209839
+SmartRangeTradingStrategy,simple_analyze,0.0,0.0,0,0.0,0.0,0.0,0.0,0,MT5-Compatible,0,31.573297262191772
+SignalProcessor,unknown,0.0,0.0,0,0.0,0.0,0.0,0.0,0,MT5-Compatible,0,24.855536460876465
+SupportResistanceBreakoutStrategy,simple_analyze,0.0,0.0,0,0.0,0.0,0.0,0.0,0,MT5-Compatible,0,27.76886749267578
+MultiFacetTrendStrategy,simple_analyze,0.0,0.0,0,0.0,0.0,0.0,0.0,0,MT5-Compatible,0,49.751216411590576
+MomentumScalpingStrategy,simple_analyze,-831.7155410251412,-0.8317155410251412,37,27.027027027027028,-0.04707778949015922,2.69456929035323,2.313619063429535,37,MT5-Compatible,0,26.723854064941406

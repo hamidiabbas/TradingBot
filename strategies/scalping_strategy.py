@@ -10,7 +10,100 @@ import numpy as np
 from typing import Dict, Any, Optional
 from .base_strategy import BaseStrategy, register_strategy
 
+<<<<<<< HEAD
+# Import base strategy and event system
+from base_strategy import BaseStrategy, SignalEvent, register_strategy
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+warnings.filterwarnings('ignore')
+
+class ScalpingType(Enum):
+    """Types of scalping strategies"""
+    MOMENTUM_SCALPING = "momentum_scalping"
+    MEAN_REVERSION_SCALPING = "mean_reversion_scalping"
+    BREAKOUT_SCALPING = "breakout_scalping"
+    NEWS_SCALPING = "news_scalping"
+    SPREAD_SCALPING = "spread_scalping"
+    VOLUME_SCALPING = "volume_scalping"
+    ARBITRAGE_SCALPING = "arbitrage_scalping"
+
+class ScalpingTimeframe(Enum):
+    """Scalping timeframes"""
+    TICK = "tick"
+    M1 = "1min"
+    M5 = "5min"
+    M15 = "15min"
+
+class MarketMicrostructure(Enum):
+    """Market microstructure states"""
+    TIGHT_SPREAD = "tight_spread"
+    WIDE_SPREAD = "wide_spread"
+    HIGH_VOLUME = "high_volume"
+    LOW_VOLUME = "low_volume"
+    VOLATILE = "volatile"
+    STABLE = "stable"
+    TRENDING = "trending"
+    RANGING = "ranging"
+
+class ScalpingSignalQuality(Enum):
+    """Quality levels for scalping signals"""
+    EXCELLENT = 0.9
+    GOOD = 0.7
+    AVERAGE = 0.5
+    POOR = 0.3
+
+@dataclass
+class ScalpingOpportunity:
+    """Enhanced scalping opportunity with comprehensive metadata"""
+    timestamp: datetime
+    symbol: str
+    timeframe: str
+    scalping_type: ScalpingType
+    direction: str  # 'bullish', 'bearish'
+    strength: float  # 0.0 to 1.0
+    entry_price: float
+    target_price: float
+    stop_loss: float
+    spread: float
+    expected_profit_pips: float
+    expected_hold_time_seconds: int
+    volume_confirmation: bool
+    momentum_score: float
+    volatility_score: float
+    liquidity_score: float
+    execution_urgency: str  # 'immediate', 'fast', 'normal'
+    risk_reward_ratio: float
+    confidence: float
+    market_microstructure: MarketMicrostructure
+    supporting_indicators: List[str]
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+@dataclass
+class ScalpingMetrics:
+    """Real-time scalping performance metrics"""
+    total_trades: int = 0
+    winning_trades: int = 0
+    losing_trades: int = 0
+    total_pips: float = 0.0
+    total_profit: float = 0.0
+    avg_hold_time: float = 0.0
+    avg_profit_per_trade: float = 0.0
+    max_consecutive_wins: int = 0
+    max_consecutive_losses: int = 0
+    current_streak: int = 0
+    win_rate: float = 0.0
+    profit_factor: float = 0.0
+    sharpe_ratio: float = 0.0
+    max_drawdown: float = 0.0
+    trades_per_hour: float = 0.0
+    last_updated: datetime = field(default_factory=datetime.utcnow)
+
+@register_strategy
+=======
 @register_strategy  
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 class EnhancedScalpingStrategy(BaseStrategy):
     """Enhanced EnhancedScalpingStrategy with aggressive signal generation"""
     
@@ -445,5 +538,13 @@ class EnhancedScalpingStrategy(BaseStrategy):
         except:
             return 0.5
 
+<<<<<<< HEAD
+# Export the enhanced strategy
+__all__ = ['EnhancedScalpingStrategy', 'ScalpingType', 'ScalpingTimeframe', 'ScalpingOpportunity', 'ScalpingMetrics']
+
+# Compatibility alias
+ScalpingStrategy = EnhancedScalpingStrategy
+=======
 # Export for backwards compatibility
 ScalpingStrategy = EnhancedScalpingStrategy  # Alias for import compatibility
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3

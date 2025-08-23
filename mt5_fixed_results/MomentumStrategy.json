@@ -1,0 +1,15 @@
+{
+  "strategy_name": "MomentumStrategy",
+  "strategy_interfaces": [
+    "advanced_signals"
+  ],
+  "symbol": "EURUSD",
+  "timeframe": "H1",
+  "performance_metrics": "PortfolioMetrics(total_return=np.float64(0.0021683879196458464), net_profit=np.float64(216.83879196458463), sharpe_ratio=np.float64(0.06958981078175996), max_drawdown=np.float64(-0.0013283983864008889), total_trades=2, win_rate=0.5, profit_factor=np.float64(2.6266369777091647), avg_trade=np.float64(108.41939598229231), avg_winner=np.float64(350.1437610118052), avg_loser=np.float64(-133.3049690472206), largest_winner=np.float64(350.1437610118052), largest_loser=np.float64(-133.3049690472206), winning_trades=1, losing_trades=1, volatility=0.0)",
+  "total_signals": 2,
+  "completed_trades": 2,
+  "strategy_errors": 0,
+  "data_bars": 17521,
+  "data_source": "MT5",
+  "runtime_seconds": 2.0208017826080322
+}

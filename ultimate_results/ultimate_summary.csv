@@ -1,0 +1,6 @@
+strategy,interfaces,net_profit,return_%,total_trades,win_rate_%,sharpe_ratio,max_drawdown_%,profit_factor,signals,data_source,errors,runtime_s
+AdvancedGridTradingStrategy,simple_analyze,6499.763902015007,6.499763902015007,91,37.362637362637365,0.23026660240609687,1.0330628671402016,2.688579384735585,92,File/Synthetic,0,22.55670714378357
+MomentumScalpingStrategy,simple_analyze,1288.3640774175199,1.2883640774175198,49,38.775510204081634,0.1130767068833542,1.0657253931758799,2.1331218061783326,49,File/Synthetic,0,6.8593056201934814
+SmartRangeTradingStrategy,simple_analyze,0.0,0.0,0,0.0,0.0,0.0,0.0,0,File/Synthetic,0,17.015816688537598
+SupportResistanceBreakoutStrategy,simple_analyze,0.0,0.0,0,0.0,0.0,0.0,0.0,0,File/Synthetic,0,15.002881526947021
+MultiFacetTrendStrategy,simple_analyze,0.0,0.0,0,0.0,0.0,0.0,0.0,0,File/Synthetic,0,42.27853083610535

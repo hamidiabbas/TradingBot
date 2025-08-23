@@ -10,7 +10,99 @@ import numpy as np
 from typing import Dict, Any, Optional
 from .base_strategy import BaseStrategy, register_strategy
 
+<<<<<<< HEAD
+# Import base strategy and event system
+from base_strategy import BaseStrategy, SignalEvent, register_strategy
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+warnings.filterwarnings('ignore')
+
+class NewsSource(Enum):
+    """Types of news sources"""
+    ECONOMIC_CALENDAR = "economic_calendar"
+    FINANCIAL_NEWS = "financial_news"
+    CENTRAL_BANK = "central_bank"
+    SOCIAL_MEDIA = "social_media"
+    EARNINGS_REPORTS = "earnings_reports"
+    GOVERNMENT_RELEASES = "government_releases"
+    MARKET_ANALYSIS = "market_analysis"
+
+class SentimentStrength(Enum):
+    """News sentiment strength levels"""
+    VERY_BEARISH = -1.0
+    BEARISH = -0.5
+    NEUTRAL = 0.0
+    BULLISH = 0.5
+    VERY_BULLISH = 1.0
+
+class NewsImpact(Enum):
+    """News impact classification"""
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
+
+class MarketReaction(Enum):
+    """Expected market reaction types"""
+    IMMEDIATE = "immediate"
+    SHORT_TERM = "short_term"
+    MEDIUM_TERM = "medium_term"
+    LONG_TERM = "long_term"
+
+@dataclass
+class NewsEvent:
+    """Enhanced news event with comprehensive metadata"""
+    timestamp: datetime
+    source: NewsSource
+    title: str
+    content: str
+    sentiment: float  # -1.0 to 1.0
+    impact_score: float  # 0.0 to 1.0
+    relevance_score: float  # 0.0 to 1.0
+    symbols_affected: List[str]
+    categories: List[str]
+    keywords: List[str]
+    market_reaction: MarketReaction
+    confidence: float
+    priority: int  # 1-10
+    event_type: str
+    country: Optional[str] = None
+    currency: Optional[str] = None
+    actual_value: Optional[float] = None
+    forecast_value: Optional[float] = None
+    previous_value: Optional[float] = None
+    deviation_score: Optional[float] = None
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+@dataclass
+class NewsSignal:
+    """Enhanced news signal with comprehensive analysis"""
+    timestamp: datetime
+    symbol: str
+    timeframe: str
+    direction: str  # 'bullish', 'bearish', 'neutral'
+    strength: float  # 0.0 to 1.0
+    sentiment: float  # -1.0 to 1.0
+    impact_score: float
+    news_events: List[NewsEvent]
+    entry_price: float
+    target_price: Optional[float]
+    stop_loss: Optional[float]
+    confidence: float
+    expected_duration: str
+    supporting_factors: List[str]
+    risk_factors: List[str]
+    correlation_score: float
+    volume_expectation: str
+    volatility_expectation: str
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+@register_strategy
+=======
 @register_strategy  
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 class EnhancedNewsStrategy(BaseStrategy):
     """Enhanced EnhancedNewsStrategy with aggressive signal generation"""
     

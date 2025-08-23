@@ -9,7 +9,107 @@ import numpy as np
 from typing import Dict, Any, Optional
 from .base_strategy import BaseStrategy, register_strategy
 
+<<<<<<< HEAD
+# Import base strategy and event system
+from base_strategy import BaseStrategy, SignalEvent, register_strategy
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+warnings.filterwarnings('ignore')
+
+class VolumeAnalysisType(Enum):
+    """Types of volume analysis methodologies"""
+    ON_BALANCE_VOLUME = "on_balance_volume"
+    VOLUME_WEIGHTED_AVERAGE_PRICE = "vwap"
+    VOLUME_PROFILE = "volume_profile"
+    ACCUMULATION_DISTRIBUTION = "accumulation_distribution"
+    VOLUME_OSCILLATOR = "volume_oscillator"
+    MONEY_FLOW_INDEX = "money_flow_index"
+    CHAIKIN_MONEY_FLOW = "chaikin_money_flow"
+    VOLUME_SPREAD_ANALYSIS = "volume_spread_analysis"
+    INSTITUTIONAL_FLOW = "institutional_flow"
+
+class VolumeCondition(Enum):
+    """Volume market conditions"""
+    HIGH_VOLUME = "high_volume"
+    LOW_VOLUME = "low_volume"
+    VOLUME_SURGE = "volume_surge"
+    VOLUME_CLIMAX = "volume_climax"
+    VOLUME_DRYING_UP = "volume_drying_up"
+    VOLUME_CONFIRMATION = "volume_confirmation"
+    VOLUME_DIVERGENCE = "volume_divergence"
+
+class VolumeSignalType(Enum):
+    """Types of volume-based signals"""
+    VOLUME_BREAKOUT = "volume_breakout"
+    VOLUME_REVERSAL = "volume_reversal"
+    INSTITUTIONAL_ACCUMULATION = "institutional_accumulation"
+    INSTITUTIONAL_DISTRIBUTION = "institutional_distribution"
+    SMART_MONEY_FLOW = "smart_money_flow"
+    RETAIL_EXHAUSTION = "retail_exhaustion"
+
+class VolumeDataType(Enum):
+    """Volume data types available"""
+    TICK_VOLUME = "tick_volume"
+    REAL_VOLUME = "real_volume"
+    MIXED_VOLUME = "mixed_volume"
+
+@dataclass
+class VolumeAnalysis:
+    """Enhanced volume analysis with comprehensive metadata"""
+    timestamp: datetime
+    symbol: str
+    timeframe: str
+    volume_type: VolumeDataType
+    current_volume: float
+    average_volume: float
+    volume_ratio: float
+    volume_trend: str
+    volume_condition: VolumeCondition
+    obv_value: float
+    vwap_value: float
+    money_flow: float
+    accumulation_distribution: float
+    volume_oscillator: float
+    institutional_flow_score: float
+    retail_flow_score: float
+    volume_profile_poc: float  # Point of Control
+    volume_profile_vah: float  # Value Area High
+    volume_profile_val: float  # Value Area Low
+    support_levels: List[float]
+    resistance_levels: List[float]
+    confidence: float
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+@dataclass
+class VolumeSignal:
+    """Enhanced volume signal with comprehensive analysis"""
+    timestamp: datetime
+    symbol: str
+    timeframe: str
+    direction: str  # 'bullish', 'bearish'
+    strength: float  # 0.0 to 1.0
+    signal_type: VolumeSignalType
+    analysis_type: VolumeAnalysisType
+    entry_price: float
+    target_price: float
+    stop_loss: float
+    volume_confirmation: bool
+    institutional_backing: bool
+    retail_sentiment: str
+    expected_move: float
+    confidence: float
+    risk_reward_ratio: float
+    volume_analysis: VolumeAnalysis
+    supporting_factors: List[str]
+    risk_factors: List[str]
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+@register_strategy
+=======
 @register_strategy  
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 class EnhancedVolumeStrategy(BaseStrategy):
     """Enhanced EnhancedVolumeStrategy with aggressive signal generation"""
     
@@ -197,5 +297,13 @@ class EnhancedVolumeStrategy(BaseStrategy):
             'metadata': {'strategy_type': self.strategy_type, 'error_fallback': True}
         }
 
+<<<<<<< HEAD
+# Export the enhanced strategy
+__all__ = ['EnhancedVolumeStrategy', 'VolumeAnalysisType', 'VolumeCondition', 'VolumeSignalType', 'VolumeAnalysis']
+
+# Compatibility alias
+VolumeStrategy = EnhancedVolumeStrategy
+=======
 # Export for backwards compatibility
 VolumeStrategy = EnhancedVolumeStrategy  # Alias for import compatibility
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3

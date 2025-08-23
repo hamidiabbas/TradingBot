@@ -9,7 +9,57 @@ import numpy as np
 from typing import Dict, Any, Optional
 from .base_strategy import BaseStrategy, register_strategy
 
+<<<<<<< HEAD
+# Import base strategy and event system
+from base_strategy import BaseStrategy, SignalEvent, register_strategy
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+warnings.filterwarnings('ignore')
+
+class MomentumType(Enum):
+    """Types of momentum calculations"""
+    PRICE_MOMENTUM = "price_momentum"
+    VOLUME_MOMENTUM = "volume_momentum"
+    COMPOSITE_MOMENTUM = "composite_momentum"
+    RELATIVE_MOMENTUM = "relative_momentum"
+    RISK_ADJUSTED_MOMENTUM = "risk_adjusted_momentum"
+
+class MarketRegime(Enum):
+    """Market regime classifications"""
+    TRENDING_UP = "trending_up"
+    TRENDING_DOWN = "trending_down"
+    SIDEWAYS = "sideways"
+    HIGH_VOLATILITY = "high_volatility"
+    LOW_VOLATILITY = "low_volatility"
+    BREAKOUT = "breakout"
+
+@dataclass
+class MomentumSignal:
+    """Enhanced momentum signal with comprehensive metadata"""
+    timestamp: datetime
+    symbol: str
+    timeframe: str
+    direction: str  # 'bullish', 'bearish', 'neutral'
+    strength: float  # 0.0 to 1.0
+    momentum_type: MomentumType
+    raw_momentum: float
+    normalized_momentum: float
+    confidence: float
+    market_regime: MarketRegime
+    supporting_indicators: List[str]
+    risk_score: float
+    entry_price: float
+    stop_loss: Optional[float] = None
+    take_profit: Optional[float] = None
+    position_size: Optional[float] = None
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+@register_strategy
+=======
 @register_strategy  
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 class EnhancedMomentumStrategy(BaseStrategy):
     """Enhanced EnhancedMomentumStrategy with aggressive signal generation"""
     
@@ -197,5 +247,132 @@ class EnhancedMomentumStrategy(BaseStrategy):
             'metadata': {'strategy_type': self.strategy_type, 'error_fallback': True}
         }
 
+<<<<<<< HEAD
+    async def cleanup(self):
+        """Cleanup strategy resources"""
+        try:
+            logger.info(f"Cleaning up Enhanced Momentum Strategy: {self.name}")
+            
+            # Clear history and caches
+            self.signal_history.clear()
+            self.market_regime_history.clear()
+            self.performance_metrics.clear()
+            
+            # Reset performance monitor
+            self.performance_monitor = defaultdict(list)
+            
+            logger.info("Enhanced Momentum Strategy cleanup completed")
+            
+        except Exception as e:
+            logger.error(f"Error during cleanup: {e}")
+
+# Export the enhanced strategy
+__all__ = ['EnhancedMomentumStrategy', 'MomentumType', 'MarketRegime', 'MomentumSignal']
+ 
+ 
+
+from typing import Dict, Any, Optional, List, Tuple, Union
+from dataclasses import dataclass
+from datetime import datetime
+import pandas as pd
+import numpy as np
+import logging
+
+from base_strategy import BaseStrategy, SignalEvent, register_strategy
+
+logger = logging.getLogger(__name__)
+
+@register_strategy
+class MomentumStrategy(BaseStrategy):
+    """Professional Momentum Strategy - FIXED CLASS NAME"""
+    
+    def __init__(self, name: str, config: Dict[str, Any]):
+        super().__init__(name, config)
+        self.lookback_period = config.get('momentum_lookback', 14)
+        self.threshold = config.get('momentum_threshold', 0.02)
+        self.signal_smoothing = config.get('signal_smoothing', 3)
+        
+        logger.info(f"MomentumStrategy '{name}' initialized successfully")
+        
+    async def initialize(self) -> bool:
+        """Initialize strategy"""
+        try:
+            logger.info(f"Initializing MomentumStrategy: {self.name}")
+            return True
+        except Exception as e:
+            logger.error(f"Error initializing MomentumStrategy: {e}")
+            return False
+        
+    def generate_signals(self, data: Dict[str, pd.DataFrame]) -> List[SignalEvent]:
+        """Generate momentum signals"""
+        signals = []
+        
+        try:
+            for symbol, timeframe_data in data.items():
+                if isinstance(timeframe_data, dict):
+                    for timeframe, df in timeframe_data.items():
+                        if len(df) < self.lookback_period:
+                            continue
+                            
+                        # Calculate momentum
+                        momentum = self._calculate_momentum(df)
+                        
+                        if abs(momentum) > self.threshold:
+                            direction = 'bullish' if momentum > 0 else 'bearish'
+                            strength = min(1.0, abs(momentum) / (self.threshold * 2))
+                            
+                            signal = SignalEvent(
+                                event_type='MOMENTUM_SIGNAL',
+                                symbol=symbol,
+                                timeframe=timeframe,
+                                timestamp=datetime.utcnow(),
+                                direction=direction,
+                                strength=strength,
+                                level=df['close'].iloc[-1],
+                                metadata={
+                                    'momentum_value': momentum,
+                                    'lookback_period': self.lookback_period
+                                }
+                            )
+                            signals.append(signal)
+                            
+        except Exception as e:
+            logger.error(f"Error generating momentum signals: {e}")
+        
+        return signals
+    
+    def _calculate_momentum(self, df: pd.DataFrame) -> float:
+        """Calculate momentum indicator"""
+        try:
+            if len(df) < self.lookback_period:
+                return 0.0
+                
+            # Simple price momentum
+            current_price = df['close'].iloc[-1]
+            past_price = df['close'].iloc[-self.lookback_period]
+            
+            if past_price > 0:
+                momentum = (current_price - past_price) / past_price
+            else:
+                momentum = 0.0
+                
+            return float(momentum)
+            
+        except Exception as e:
+            logger.error(f"Error calculating momentum: {e}")
+            return 0.0
+    
+    def get_required_data(self) -> Dict[str, List[str]]:
+        """Return required data specification"""
+        return {'*': ['M15', 'H1']}
+        
+    def validate_signal(self, signal) -> bool:
+        """Validate signal"""
+        return signal.strength > 0.5
+
+# Export for compatibility
+EnhancedMomentumStrategy = MomentumStrategy  # Alias for backward compatibility
+=======
 # Export for backwards compatibility
 MomentumStrategy = EnhancedMomentumStrategy  # Alias for import compatibility
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3

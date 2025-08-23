@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+"""Utils package"""
+=======
 """
 Utilities package for TradingBot v1.0
 """
@@ -16,3 +19,4 @@ __all__ = [
     'calculate_fibonacci_retracements', 'calculate_fibonacci_extensions',
     'calculate_sma', 'calculate_ema', 'calculate_rsi'
 ]
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3

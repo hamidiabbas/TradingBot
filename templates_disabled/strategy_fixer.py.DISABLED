@@ -1,0 +1,1598 @@
+#!/usr/bin/env python3
+"""
+STRATEGY FIXER - Fix All Failed Trading Strategies
+Fixes indentation errors and creates missing strategies
+"""
+
+import os
+import re
+from pathlib import Path
+from typing import List, Dict, Any
+import ast
+
+class StrategyFixer:
+    """Fix and repair trading strategies"""
+    
+    def __init__(self):
+        self.strategies_dir = Path("strategies")
+        self.strategies_dir.mkdir(exist_ok=True)
+        self.fixed_strategies = []
+        self.created_strategies = []
+        
+        print("🔧 STRATEGY FIXER INITIALIZED")
+        print(f"   Strategies Directory: {self.strategies_dir}")
+    
+    def fix_all_strategies(self):
+        """Fix all failed strategies"""
+        print("\n🔧 FIXING ALL FAILED STRATEGIES")
+        print("=" * 50)
+        
+        failed_strategies = [
+            'base_strategy.py',
+            'compatibility.py', 
+            'ict_strategy.py',
+            'indicator_suite_strategy.py',
+            'news_strategy.py',
+            'rtm_strategy.py',
+            'scalping_strategy.py',
+            'smc_indicators.py',
+            'technical_indicators.py',
+            'volume_strategy.py'
+        ]
+        
+        for strategy_file in failed_strategies:
+            self.fix_strategy_file(strategy_file)
+        
+        # Create any missing essential strategies
+        self.create_missing_strategies()
+        
+        print(f"\n✅ STRATEGY FIXING COMPLETE")
+        print(f"   Fixed: {len(self.fixed_strategies)} strategies")
+        print(f"   Created: {len(self.created_strategies)} strategies")
+    
+    def fix_strategy_file(self, filename: str):
+        """Fix individual strategy file"""
+        file_path = self.strategies_dir / filename
+        
+        print(f"\n🔧 Fixing: {filename}")
+        
+        if not file_path.exists():
+            print(f"   📄 File not found, creating new strategy")
+            self.create_strategy_from_template(filename)
+            return
+        
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Fix common indentation issues
+            fixed_content = self.fix_indentation_issues(content)
+            
+            # Validate syntax
+            try:
+                ast.parse(fixed_content)
+                print(f"   ✅ Syntax valid after fixes")
+            except SyntaxError as e:
+                print(f"   ⚠️ Syntax still invalid: {e}")
+                print(f"   🔄 Creating new strategy from template")
+                self.create_strategy_from_template(filename)
+                return
+            
+            # Write fixed content
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(fixed_content)
+            
+            self.fixed_strategies.append(filename)
+            print(f"   ✅ Fixed: {filename}")
+            
+        except Exception as e:
+            print(f"   ❌ Error fixing {filename}: {e}")
+            print(f"   🔄 Creating new strategy from template")
+            self.create_strategy_from_template(filename)
+    
+    def fix_indentation_issues(self, content: str) -> str:
+        """Fix common indentation issues"""
+        lines = content.split('\n')
+        fixed_lines = []
+        
+        for i, line in enumerate(lines, 1):
+            original_line = line
+            
+            # Fix mixed tabs and spaces
+            line = line.expandtabs(4)
+            
+            # Fix common indentation patterns around line 16
+            if 15 <= i <= 20:  # Focus on problem area
+                # Remove leading whitespace and re-indent properly
+                stripped = line.lstrip()
+                if stripped:
+                    # Determine proper indentation level
+                    if stripped.startswith(('def ', 'class ')):
+                        line = stripped  # Top level
+                    elif stripped.startswith(('return ', 'pass', 'break', 'continue')):
+                        line = '        ' + stripped  # Method level
+                    elif stripped.startswith(('if ', 'elif ', 'else:', 'for ', 'while ', 'try:', 'except ', 'finally:')):
+                        line = '        ' + stripped  # Method level
+                    elif stripped.startswith(('"""', "'''", '#')):
+                        line = '    ' + stripped  # Class level
+                    else:
+                        line = '        ' + stripped  # Default method level
+                else:
+                    line = ''  # Empty line
+            
+            fixed_lines.append(line)
+        
+        return '\n'.join(fixed_lines)
+    
+    def create_strategy_from_template(self, filename: str):
+        """Create strategy from template based on filename"""
+        strategy_name = filename.replace('.py', '').replace('_', ' ').title().replace(' ', '')
+        
+        if 'base_strategy' in filename:
+            content = self.get_base_strategy_template()
+        elif 'compatibility' in filename:
+            content = self.get_compatibility_template()
+        elif 'ict_strategy' in filename:
+            content = self.get_ict_strategy_template()
+        elif 'indicator_suite' in filename:
+            content = self.get_indicator_suite_template()
+        elif 'news_strategy' in filename:
+            content = self.get_news_strategy_template()
+        elif 'rtm_strategy' in filename:
+            content = self.get_rtm_strategy_template()
+        elif 'scalping_strategy' in filename:
+            content = self.get_scalping_strategy_template()
+        elif 'smc_indicators' in filename:
+            content = self.get_smc_indicators_template()
+        elif 'technical_indicators' in filename:
+            content = self.get_technical_indicators_template()
+        elif 'volume_strategy' in filename:
+            content = self.get_volume_strategy_template()
+        else:
+            content = self.get_generic_strategy_template(strategy_name)
+        
+        file_path = self.strategies_dir / filename
+        
+        try:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            
+            self.created_strategies.append(filename)
+            print(f"   ✅ Created: {filename}")
+            
+        except Exception as e:
+            print(f"   ❌ Error creating {filename}: {e}")
+    
+    def get_base_strategy_template(self) -> str:
+        """Base strategy template"""
+        return '''#!/usr/bin/env python3
+"""
+Base Strategy - Foundation for all trading strategies
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, Optional
+from abc import ABC, abstractmethod
+
+class BaseStrategy(ABC):
+    """Base class for all trading strategies"""
+    
+    def __init__(self, **kwargs):
+        self.name = self.__class__.__name__
+        self.parameters = kwargs
+        self.confidence_threshold = kwargs.get('confidence_threshold', 0.6)
+        self.risk_level = kwargs.get('risk_level', 0.01)
+        
+    @abstractmethod
+    def analyze(self, df: pd.DataFrame, symbol: str) -> Optional[Dict[str, Any]]:
+        """Analyze market data and return trading signal"""
+        pass
+    
+    def calculate_confidence(self, strength: float) -> float:
+        """Calculate signal confidence"""
+        return min(max(strength, 0.0), 1.0)
+    
+    def validate_data(self, df: pd.DataFrame) -> bool:
+        """Validate input data"""
+        return len(df) >= 20 and all(col in df.columns for col in ['open', 'high', 'low', 'close'])
+    
+    def get_strategy_info(self) -> Dict[str, Any]:
+        """Get strategy information"""
+        return {
+            'name': self.name,
+            'type': 'base',
+            'parameters': self.parameters,
+            'confidence_threshold': self.confidence_threshold
+        }
+'''
+    
+    def get_compatibility_template(self) -> str:
+        """Compatibility utilities template"""
+        return '''#!/usr/bin/env python3
+"""
+Compatibility utilities for strategy system
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, List
+
+class CompatibilityLayer:
+    """Compatibility layer for different data formats"""
+    
+    def __init__(self):
+        self.supported_formats = ['MT5', 'CSV', 'JSON']
+    
+    def normalize_data(self, data: Any, source_format: str = 'MT5') -> pd.DataFrame:
+        """Normalize data from different sources"""
+        if isinstance(data, pd.DataFrame):
+            return self.normalize_dataframe(data)
+        elif isinstance(data, dict):
+            return self.dict_to_dataframe(data)
+        elif isinstance(data, list):
+            return self.list_to_dataframe(data)
+        else:
+            raise ValueError(f"Unsupported data type: {type(data)}")
+    
+    def normalize_dataframe(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Normalize DataFrame columns"""
+        # Standardize column names
+        column_mapping = {
+            'Open': 'open', 'HIGH': 'high', 'Low': 'low', 'Close': 'close',
+            'Volume': 'volume', 'Time': 'time', 'Timestamp': 'time'
+        }
+        
+        df_normalized = df.copy()
+        df_normalized.columns = [column_mapping.get(col, col.lower()) for col in df.columns]
+        
+        # Ensure required columns exist
+        required_cols = ['open', 'high', 'low', 'close']
+        for col in required_cols:
+            if col not in df_normalized.columns:
+                df_normalized[col] = df_normalized.get('close', 0)
+        
+        return df_normalized
+    
+    def dict_to_dataframe(self, data: Dict) -> pd.DataFrame:
+        """Convert dictionary to DataFrame"""
+        return pd.DataFrame([data])
+    
+    def list_to_dataframe(self, data: List) -> pd.DataFrame:
+        """Convert list to DataFrame"""
+        if all(isinstance(item, dict) for item in data):
+            return pd.DataFrame(data)
+        else:
+            return pd.DataFrame({'value': data})
+    
+    def validate_compatibility(self, df: pd.DataFrame) -> bool:
+        """Validate data compatibility"""
+        required_columns = ['open', 'high', 'low', 'close']
+        return all(col in df.columns for col in required_columns)
+'''
+    
+    def get_ict_strategy_template(self) -> str:
+        """ICT (Inner Circle Trader) strategy template"""
+        return '''#!/usr/bin/env python3
+"""
+ICT Strategy - Inner Circle Trader methodology
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, Optional
+
+class ICTStrategy:
+    """Inner Circle Trader strategy implementation"""
+    
+    def __init__(self, **kwargs):
+        self.name = "ICTStrategy"
+        self.imbalance_threshold = kwargs.get('imbalance_threshold', 0.001)
+        self.liquidity_threshold = kwargs.get('liquidity_threshold', 0.002)
+        self.confidence_threshold = kwargs.get('confidence_threshold', 0.65)
+    
+    def analyze(self, df: pd.DataFrame, symbol: str) -> Optional[Dict[str, Any]]:
+        """Analyze using ICT methodology"""
+        if len(df) < 50:
+            return None
+        
+        try:
+            # Calculate key ICT concepts
+            imbalances = self.identify_imbalances(df)
+            liquidity_levels = self.identify_liquidity_levels(df)
+            market_structure = self.analyze_market_structure(df)
+            
+            # Generate signal based on ICT methodology
+            signal_strength = 0.0
+            signal_direction = "HOLD"
+            
+            # Check for bullish ICT setup
+            if (imbalances['bullish_count'] > 0 and 
+                liquidity_levels['support_strength'] > self.liquidity_threshold and
+                market_structure['trend'] == 'bullish'):
+                signal_direction = "BUY"
+                signal_strength = 0.7 + (imbalances['bullish_count'] * 0.1)
+            
+            # Check for bearish ICT setup
+            elif (imbalances['bearish_count'] > 0 and 
+                  liquidity_levels['resistance_strength'] > self.liquidity_threshold and
+                  market_structure['trend'] == 'bearish'):
+                signal_direction = "SELL"
+                signal_strength = 0.7 + (imbalances['bearish_count'] * 0.1)
+            
+            confidence = min(signal_strength, 0.95)
+            
+            if confidence >= self.confidence_threshold:
+                return {
+                    'signal': signal_direction,
+                    'confidence': confidence,
+                    'strategy': self.name,
+                    'reason': f'ICT setup: imbalances={imbalances}, liquidity={liquidity_levels}',
+                    'strategy_data': {
+                        'imbalances': imbalances,
+                        'liquidity_levels': liquidity_levels,
+                        'market_structure': market_structure
+                    }
+                }
+            
+            return None
+            
+        except Exception as e:
+            return None
+    
+    def identify_imbalances(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Identify Fair Value Gaps (imbalances)"""
+        imbalances = {'bullish_count': 0, 'bearish_count': 0}
+        
+        for i in range(2, len(df)):
+            # Bullish imbalance: current low > previous high
+            if df.iloc[i]['low'] > df.iloc[i-2]['high']:
+                imbalances['bullish_count'] += 1
+            
+            # Bearish imbalance: current high < previous low
+            elif df.iloc[i]['high'] < df.iloc[i-2]['low']:
+                imbalances['bearish_count'] += 1
+        
+        return imbalances
+    
+    def identify_liquidity_levels(self, df: pd.DataFrame) -> Dict[str, float]:
+        """Identify liquidity levels"""
+        recent_data = df.tail(20)
+        
+        support_strength = len(recent_data[recent_data['low'] <= recent_data['low'].quantile(0.2)]) / len(recent_data)
+        resistance_strength = len(recent_data[recent_data['high'] >= recent_data['high'].quantile(0.8)]) / len(recent_data)
+        
+        return {
+            'support_strength': support_strength,
+            'resistance_strength': resistance_strength
+        }
+    
+    def analyze_market_structure(self, df: pd.DataFrame) -> Dict[str, str]:
+        """Analyze market structure"""
+        recent_data = df.tail(30)
+        
+        # Simple trend analysis
+        if recent_data['close'].iloc[-1] > recent_data['close'].iloc[-10]:
+            trend = 'bullish'
+        elif recent_data['close'].iloc[-1] < recent_data['close'].iloc[-10]:
+            trend = 'bearish'
+        else:
+            trend = 'sideways'
+        
+        return {'trend': trend}
+'''
+    
+    def get_indicator_suite_template(self) -> str:
+        """Technical indicator suite template"""
+        return '''#!/usr/bin/env python3
+"""
+Indicator Suite Strategy - Multiple technical indicators
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, Optional
+
+class IndicatorSuiteStrategy:
+    """Strategy using multiple technical indicators"""
+    
+    def __init__(self, **kwargs):
+        self.name = "IndicatorSuiteStrategy"
+        self.rsi_period = kwargs.get('rsi_period', 14)
+        self.ma_short = kwargs.get('ma_short', 20)
+        self.ma_long = kwargs.get('ma_long', 50)
+        self.bb_period = kwargs.get('bb_period', 20)
+        self.confidence_threshold = kwargs.get('confidence_threshold', 0.6)
+    
+    def analyze(self, df: pd.DataFrame, symbol: str) -> Optional[Dict[str, Any]]:
+        """Analyze using multiple indicators"""
+        if len(df) < max(self.ma_long, self.bb_period) + 10:
+            return None
+        
+        try:
+            # Calculate indicators
+            indicators = self.calculate_indicators(df)
+            
+            # Generate signals from each indicator
+            signals = {
+                'rsi': self.rsi_signal(indicators['rsi']),
+                'ma_cross': self.ma_crossover_signal(indicators['ma_short'], indicators['ma_long']),
+                'bb': self.bollinger_signal(df['close'], indicators['bb_upper'], indicators['bb_lower']),
+                'macd': self.macd_signal(indicators['macd'], indicators['macd_signal'])
+            }
+            
+            # Combine signals
+            bullish_count = sum(1 for s in signals.values() if s == 1)
+            bearish_count = sum(1 for s in signals.values() if s == -1)
+            
+            # Determine final signal
+            signal_direction = "HOLD"
+            confidence = 0.5
+            
+            if bullish_count >= 3:
+                signal_direction = "BUY"
+                confidence = 0.6 + (bullish_count * 0.1)
+            elif bearish_count >= 3:
+                signal_direction = "SELL"
+                confidence = 0.6 + (bearish_count * 0.1)
+            
+            if confidence >= self.confidence_threshold:
+                return {
+                    'signal': signal_direction,
+                    'confidence': confidence,
+                    'strategy': self.name,
+                    'reason': f'Indicator consensus: {bullish_count} bullish, {bearish_count} bearish',
+                    'strategy_data': {
+                        'indicators': indicators,
+                        'individual_signals': signals,
+                        'bullish_count': bullish_count,
+                        'bearish_count': bearish_count
+                    }
+                }
+            
+            return None
+            
+        except Exception as e:
+            return None
+    
+    def calculate_indicators(self, df: pd.DataFrame) -> Dict[str, pd.Series]:
+        """Calculate technical indicators"""
+        indicators = {}
+        
+        # RSI
+        indicators['rsi'] = self.calculate_rsi(df['close'], self.rsi_period)
+        
+        # Moving Averages
+        indicators['ma_short'] = df['close'].rolling(self.ma_short).mean()
+        indicators['ma_long'] = df['close'].rolling(self.ma_long).mean()
+        
+        # Bollinger Bands
+        bb_ma = df['close'].rolling(self.bb_period).mean()
+        bb_std = df['close'].rolling(self.bb_period).std()
+        indicators['bb_upper'] = bb_ma + (bb_std * 2)
+        indicators['bb_lower'] = bb_ma - (bb_std * 2)
+        
+        # MACD
+        exp12 = df['close'].ewm(span=12).mean()
+        exp26 = df['close'].ewm(span=26).mean()
+        indicators['macd'] = exp12 - exp26
+        indicators['macd_signal'] = indicators['macd'].ewm(span=9).mean()
+        
+        return indicators
+    
+    def calculate_rsi(self, prices: pd.Series, period: int) -> pd.Series:
+        """Calculate RSI"""
+        delta = prices.diff()
+        gain = (delta.where(delta > 0, 0)).rolling(period).mean()
+        loss = (-delta.where(delta < 0, 0)).rolling(period).mean()
+        rs = gain / loss
+        return 100 - (100 / (1 + rs))
+    
+    def rsi_signal(self, rsi: pd.Series) -> int:
+        """Generate RSI signal"""
+        current_rsi = rsi.iloc[-1]
+        if current_rsi < 30:
+            return 1  # Bullish
+        elif current_rsi > 70:
+            return -1  # Bearish
+        return 0  # Neutral
+    
+    def ma_crossover_signal(self, ma_short: pd.Series, ma_long: pd.Series) -> int:
+        """Generate MA crossover signal"""
+        if ma_short.iloc[-1] > ma_long.iloc[-1] and ma_short.iloc[-2] <= ma_long.iloc[-2]:
+            return 1  # Bullish crossover
+        elif ma_short.iloc[-1] < ma_long.iloc[-1] and ma_short.iloc[-2] >= ma_long.iloc[-2]:
+            return -1  # Bearish crossover
+        return 0  # No crossover
+    
+    def bollinger_signal(self, price: pd.Series, bb_upper: pd.Series, bb_lower: pd.Series) -> int:
+        """Generate Bollinger Bands signal"""
+        current_price = price.iloc[-1]
+        if current_price <= bb_lower.iloc[-1]:
+            return 1  # Oversold
+        elif current_price >= bb_upper.iloc[-1]:
+            return -1  # Overbought
+        return 0  # Neutral
+    
+    def macd_signal(self, macd: pd.Series, macd_signal: pd.Series) -> int:
+        """Generate MACD signal"""
+        if macd.iloc[-1] > macd_signal.iloc[-1] and macd.iloc[-2] <= macd_signal.iloc[-2]:
+            return 1  # Bullish crossover
+        elif macd.iloc[-1] < macd_signal.iloc[-1] and macd.iloc[-2] >= macd_signal.iloc[-2]:
+            return -1  # Bearish crossover
+        return 0  # No crossover
+'''
+    
+    def get_news_strategy_template(self) -> str:
+        """News-based strategy template"""
+        return '''#!/usr/bin/env python3
+"""
+News Strategy - Trading based on news events
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, Optional
+from datetime import datetime, timedelta
+
+class NewsStrategy:
+    """News-based trading strategy"""
+    
+    def __init__(self, **kwargs):
+        self.name = "NewsStrategy"
+        self.volatility_threshold = kwargs.get('volatility_threshold', 0.002)
+        self.volume_threshold = kwargs.get('volume_threshold', 1.5)
+        self.confidence_threshold = kwargs.get('confidence_threshold', 0.6)
+        self.news_impact_hours = kwargs.get('news_impact_hours', 2)
+    
+    def analyze(self, df: pd.DataFrame, symbol: str) -> Optional[Dict[str, Any]]:
+        """Analyze market for news-based trading opportunities"""
+        if len(df) < 30:
+            return None
+        
+        try:
+            # Check for news-related volatility
+            volatility_spike = self.detect_volatility_spike(df)
+            volume_spike = self.detect_volume_spike(df)
+            price_action = self.analyze_price_action(df)
+            
+            # Generate signal based on news impact
+            signal_strength = 0.0
+            signal_direction = "HOLD"
+            
+            # Post-news reversal opportunity
+            if (volatility_spike['detected'] and 
+                volume_spike['detected'] and 
+                price_action['trend_strength'] > 0.6):
+                
+                if price_action['direction'] == 'bullish':
+                    signal_direction = "BUY"
+                    signal_strength = 0.65 + (volatility_spike['intensity'] * 0.2)
+                elif price_action['direction'] == 'bearish':
+                    signal_direction = "SELL" 
+                    signal_strength = 0.65 + (volatility_spike['intensity'] * 0.2)
+            
+            confidence = min(signal_strength, 0.9)
+            
+            if confidence >= self.confidence_threshold:
+                return {
+                    'signal': signal_direction,
+                    'confidence': confidence,
+                    'strategy': self.name,
+                    'reason': f'News impact detected: volatility={volatility_spike["intensity"]:.3f}, volume={volume_spike["ratio"]:.2f}',
+                    'strategy_data': {
+                        'volatility_spike': volatility_spike,
+                        'volume_spike': volume_spike,
+                        'price_action': price_action
+                    }
+                }
+            
+            return None
+            
+        except Exception as e:
+            return None
+    
+    def detect_volatility_spike(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Detect volatility spikes indicating news events"""
+        # Calculate ATR for volatility measurement
+        tr = pd.DataFrame()
+        tr['hl'] = df['high'] - df['low']
+        tr['hc'] = abs(df['high'] - df['close'].shift())
+        tr['lc'] = abs(df['low'] - df['close'].shift())
+        tr['tr'] = tr[['hl', 'hc', 'lc']].max(axis=1)
+        
+        atr = tr['tr'].rolling(14).mean()
+        current_tr = tr['tr'].iloc[-1]
+        avg_atr = atr.iloc[-15:-1].mean()  # Exclude current period
+        
+        intensity = current_tr / avg_atr if avg_atr > 0 else 0
+        detected = intensity > (1 + self.volatility_threshold)
+        
+        return {
+            'detected': detected,
+            'intensity': intensity,
+            'current_tr': current_tr,
+            'avg_atr': avg_atr
+        }
+    
+    def detect_volume_spike(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Detect volume spikes"""
+        if 'volume' not in df.columns:
+            return {'detected': False, 'ratio': 0}
+        
+        current_volume = df['volume'].iloc[-1]
+        avg_volume = df['volume'].iloc[-20:-1].mean()  # Last 20 periods average
+        
+        ratio = current_volume / avg_volume if avg_volume > 0 else 0
+        detected = ratio > self.volume_threshold
+        
+        return {
+            'detected': detected,
+            'ratio': ratio,
+            'current_volume': current_volume,
+            'avg_volume': avg_volume
+        }
+    
+    def analyze_price_action(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Analyze price action strength and direction"""
+        recent_data = df.tail(10)
+        
+        # Calculate price movement
+        price_change = (recent_data['close'].iloc[-1] - recent_data['close'].iloc[0]) / recent_data['close'].iloc
+        
+        # Determine direction and strength
+        if price_change > 0.005:  # 0.5% threshold
+            direction = 'bullish'
+            strength = min(abs(price_change) * 10, 1.0)
+        elif price_change < -0.005:
+            direction = 'bearish' 
+            strength = min(abs(price_change) * 10, 1.0)
+        else:
+            direction = 'neutral'
+            strength = 0.3
+        
+        return {
+            'direction': direction,
+            'trend_strength': strength,
+            'price_change': price_change
+        }
+'''
+    
+    def get_rtm_strategy_template(self) -> str:
+        """Return to Mean strategy template"""
+        return '''#!/usr/bin/env python3
+"""
+RTM Strategy - Return to Mean trading strategy
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, Optional
+
+class RTMStrategy:
+    """Return to Mean trading strategy"""
+    
+    def __init__(self, **kwargs):
+        self.name = "RTMStrategy"
+        self.lookback_period = kwargs.get('lookback_period', 20)
+        self.deviation_threshold = kwargs.get('deviation_threshold', 2.0)
+        self.confidence_threshold = kwargs.get('confidence_threshold', 0.65)
+        self.min_deviation = kwargs.get('min_deviation', 0.001)
+    
+    def analyze(self, df: pd.DataFrame, symbol: str) -> Optional[Dict[str, Any]]:
+        """Analyze for mean reversion opportunities"""
+        if len(df) < self.lookback_period + 10:
+            return None
+        
+        try:
+            # Calculate mean reversion indicators
+            mean_data = self.calculate_mean_metrics(df)
+            deviation_analysis = self.analyze_deviations(df, mean_data)
+            momentum_check = self.check_momentum(df)
+            
+            signal_direction = "HOLD"
+            confidence = 0.5
+            
+            # Check for mean reversion opportunity
+            if (deviation_analysis['z_score'] > self.deviation_threshold and 
+                deviation_analysis['current_deviation'] > self.min_deviation and
+                momentum_check['reversal_likely']):
+                
+                signal_direction = "SELL"  # Price too high, expect reversion
+                confidence = 0.65 + min(deviation_analysis['z_score'] * 0.1, 0.25)
+                
+            elif (deviation_analysis['z_score'] < -self.deviation_threshold and 
+                  deviation_analysis['current_deviation'] > self.min_deviation and
+                  momentum_check['reversal_likely']):
+                
+                signal_direction = "BUY"  # Price too low, expect reversion
+                confidence = 0.65 + min(abs(deviation_analysis['z_score']) * 0.1, 0.25)
+            
+            if confidence >= self.confidence_threshold:
+                return {
+                    'signal': signal_direction,
+                    'confidence': confidence,
+                    'strategy': self.name,
+                    'reason': f'Mean reversion: z_score={deviation_analysis["z_score"]:.2f}, deviation={deviation_analysis["current_deviation"]:.4f}',
+                    'strategy_data': {
+                        'mean_data': mean_data,
+                        'deviation_analysis': deviation_analysis,
+                        'momentum_check': momentum_check
+                    }
+                }
+            
+            return None
+            
+        except Exception as e:
+            return None
+    
+    def calculate_mean_metrics(self, df: pd.DataFrame) -> Dict[str, float]:
+        """Calculate mean and standard deviation metrics"""
+        recent_data = df.tail(self.lookback_period)
+        
+        mean_price = recent_data['close'].mean()
+        std_price = recent_data['close'].std()
+        current_price = df['close'].iloc[-1]
+        
+        return {
+            'mean_price': mean_price,
+            'std_price': std_price,
+            'current_price': current_price
+        }
+    
+    def analyze_deviations(self, df: pd.DataFrame, mean_data: Dict[str, float]) -> Dict[str, float]:
+        """Analyze price deviations from mean"""
+        current_deviation = abs(mean_data['current_price'] - mean_data['mean_price']) / mean_data['mean_price']
+        
+        # Calculate z-score
+        z_score = (mean_data['current_price'] - mean_data['mean_price']) / mean_data['std_price'] if mean_data['std_price'] > 0 else 0
+        
+        return {
+            'current_deviation': current_deviation,
+            'z_score': z_score,
+            'deviation_magnitude': abs(z_score)
+        }
+    
+    def check_momentum(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Check if momentum is slowing (indicating possible reversal)"""
+        recent_data = df.tail(5)
+        
+        # Calculate momentum indicators
+        price_changes = recent_data['close'].diff()
+        momentum_slowing = False
+        
+        # Check if recent price changes are decreasing in magnitude
+        if len(price_changes) >= 3:
+            recent_changes = price_changes.dropna().abs()
+            if len(recent_changes) >= 2:
+                momentum_slowing = recent_changes.iloc[-1] < recent_changes.iloc[-2]
+        
+        # Additional momentum check using RSI-like calculation
+        rsi_like = self.simple_rsi(df['close'], 5)
+        reversal_likely = momentum_slowing or rsi_like > 70 or rsi_like < 30
+        
+        return {
+            'momentum_slowing': momentum_slowing,
+            'reversal_likely': reversal_likely,
+            'rsi_like': rsi_like
+        }
+    
+    def simple_rsi(self, prices: pd.Series, period: int) -> float:
+        """Simple RSI calculation"""
+        if len(prices) < period + 1:
+            return 50.0
+        
+        delta = prices.diff()
+        gain = delta.where(delta > 0, 0).rolling(period).mean()
+        loss = (-delta.where(delta < 0, 0)).rolling(period).mean()
+        
+        rs = gain.iloc[-1] / loss.iloc[-1] if loss.iloc[-1] != 0 else 0
+        rsi = 100 - (100 / (1 + rs)) if rs > 0 else 50
+        
+        return rsi
+'''
+    
+    def get_scalping_strategy_template(self) -> str:
+        """Scalping strategy template"""
+        return '''#!/usr/bin/env python3
+"""
+Scalping Strategy - High-frequency short-term trading
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, Optional
+
+class ScalpingStrategy:
+    """Scalping strategy for quick profits"""
+    
+    def __init__(self, **kwargs):
+        self.name = "ScalpingStrategy"
+        self.quick_ma = kwargs.get('quick_ma', 5)
+        self.slow_ma = kwargs.get('slow_ma', 15)
+        self.volatility_window = kwargs.get('volatility_window', 10)
+        self.min_volatility = kwargs.get('min_volatility', 0.0005)
+        self.confidence_threshold = kwargs.get('confidence_threshold', 0.7)
+    
+    def analyze(self, df: pd.DataFrame, symbol: str) -> Optional[Dict[str, Any]]:
+        """Analyze for scalping opportunities"""
+        if len(df) < max(self.slow_ma, self.volatility_window) + 5:
+            return None
+        
+        try:
+            # Calculate scalping indicators
+            scalping_data = self.calculate_scalping_indicators(df)
+            volatility_check = self.check_volatility(df)
+            momentum_analysis = self.analyze_short_term_momentum(df)
+            
+            signal_direction = "HOLD"
+            confidence = 0.5
+            
+            # Scalping signal logic
+            if (volatility_check['sufficient'] and 
+                scalping_data['ma_signal'] != 0 and
+                momentum_analysis['strength'] > 0.6):
+                
+                if (scalping_data['ma_signal'] == 1 and 
+                    momentum_analysis['direction'] == 'bullish'):
+                    signal_direction = "BUY"
+                    confidence = 0.7 + (momentum_analysis['strength'] * 0.15)
+                    
+                elif (scalping_data['ma_signal'] == -1 and 
+                      momentum_analysis['direction'] == 'bearish'):
+                    signal_direction = "SELL"
+                    confidence = 0.7 + (momentum_analysis['strength'] * 0.15)
+            
+            if confidence >= self.confidence_threshold:
+                return {
+                    'signal': signal_direction,
+                    'confidence': confidence,
+                    'strategy': self.name,
+                    'reason': f'Scalping opportunity: MA signal={scalping_data["ma_signal"]}, momentum={momentum_analysis["strength"]:.2f}',
+                    'strategy_data': {
+                        'scalping_indicators': scalping_data,
+                        'volatility': volatility_check,
+                        'momentum': momentum_analysis,
+                        'strategy_type': 'scalping'
+                    }
+                }
+            
+            return None
+            
+        except Exception as e:
+            return None
+    
+    def calculate_scalping_indicators(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Calculate indicators for scalping"""
+        # Quick and slow moving averages
+        quick_ma = df['close'].rolling(self.quick_ma).mean()
+        slow_ma = df['close'].rolling(self.slow_ma).mean()
+        
+        # Current values
+        current_quick = quick_ma.iloc[-1]
+        current_slow = slow_ma.iloc[-1]
+        prev_quick = quick_ma.iloc[-2]
+        prev_slow = slow_ma.iloc[-2]
+        
+        # MA crossover signal
+        ma_signal = 0
+        if current_quick > current_slow and prev_quick <= prev_slow:
+            ma_signal = 1  # Bullish crossover
+        elif current_quick < current_slow and prev_quick >= prev_slow:
+            ma_signal = -1  # Bearish crossover
+        
+        # MA separation (strength of trend)
+        ma_separation = abs(current_quick - current_slow) / current_slow if current_slow > 0 else 0
+        
+        return {
+            'quick_ma': current_quick,
+            'slow_ma': current_slow,
+            'ma_signal': ma_signal,
+            'ma_separation': ma_separation
+        }
+    
+    def check_volatility(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Check if volatility is sufficient for scalping"""
+        recent_data = df.tail(self.volatility_window)
+        
+        # Calculate volatility as price range percentage
+        price_ranges = (recent_data['high'] - recent_data['low']) / recent_data['close']
+        avg_volatility = price_ranges.mean()
+        
+        sufficient = avg_volatility >= self.min_volatility
+        
+        return {
+            'sufficient': sufficient,
+            'avg_volatility': avg_volatility,
+            'min_required': self.min_volatility
+        }
+    
+    def analyze_short_term_momentum(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Analyze short-term momentum for scalping"""
+        recent_data = df.tail(5)
+        
+        # Price momentum
+        price_change = (recent_data['close'].iloc[-1] - recent_data['close'].iloc[0]) / recent_data['close'].iloc
+        
+        # Volume momentum (if available)
+        volume_momentum = 0
+        if 'volume' in df.columns:
+            recent_volume = recent_data['volume'].mean()
+            avg_volume = df['volume'].tail(20).mean()
+            volume_momentum = recent_volume / avg_volume if avg_volume > 0 else 1
+        
+        # Determine direction and strength
+        if price_change > 0.001:  # 0.1% threshold
+            direction = 'bullish'
+            strength = min(price_change * 100, 1.0)
+        elif price_change < -0.001:
+            direction = 'bearish'
+            strength = min(abs(price_change) * 100, 1.0)
+        else:
+            direction = 'neutral'
+            strength = 0.3
+        
+        # Adjust strength with volume
+        if volume_momentum > 1.2:
+            strength = min(strength * 1.2, 1.0)
+        
+        return {
+            'direction': direction,
+            'strength': strength,
+            'price_change': price_change,
+            'volume_momentum': volume_momentum
+        }
+'''
+    
+    def get_smc_indicators_template(self) -> str:
+        """Smart Money Concepts indicators template"""
+        return '''#!/usr/bin/env python3
+"""
+SMC Indicators - Smart Money Concepts technical indicators
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, List, Tuple
+
+class SMCIndicators:
+    """Smart Money Concepts indicators"""
+    
+    def __init__(self):
+        self.name = "SMCIndicators"
+    
+    def calculate_order_blocks(self, df: pd.DataFrame, lookback: int = 10) -> List[Dict[str, Any]]:
+        """Identify order blocks"""
+        order_blocks = []
+        
+        for i in range(lookback, len(df) - 1):
+            # Bullish Order Block: Strong buying after decline
+            if self.is_bullish_order_block(df, i, lookback):
+                order_blocks.append({
+                    'type': 'bullish',
+                    'index': i,
+                    'price': df.iloc[i]['low'],
+                    'strength': self.calculate_block_strength(df, i, 'bullish')
+                })
+            
+            # Bearish Order Block: Strong selling after rally
+            elif self.is_bearish_order_block(df, i, lookback):
+                order_blocks.append({
+                    'type': 'bearish', 
+                    'index': i,
+                    'price': df.iloc[i]['high'],
+                    'strength': self.calculate_block_strength(df, i, 'bearish')
+                })
+        
+        return order_blocks
+    
+    def is_bullish_order_block(self, df: pd.DataFrame, index: int, lookback: int) -> bool:
+        """Check if current candle forms bullish order block"""
+        current = df.iloc[index]
+        next_candle = df.iloc[index + 1]
+        
+        # Strong bullish candle followed by higher close
+        return (current['close'] > current['open'] and  # Bullish candle
+                (current['close'] - current['open']) > (current['high'] - current['low']) * 0.6 and  # Strong body
+                next_candle['close'] > current['high'])  # Next candle breaks high
+    
+    def is_bearish_order_block(self, df: pd.DataFrame, index: int, lookback: int) -> bool:
+        """Check if current candle forms bearish order block"""
+        current = df.iloc[index]
+        next_candle = df.iloc[index + 1]
+        
+        # Strong bearish candle followed by lower close
+        return (current['close'] < current['open'] and  # Bearish candle
+                (current['open'] - current['close']) > (current['high'] - current['low']) * 0.6 and  # Strong body
+                next_candle['close'] < current['low'])  # Next candle breaks low
+    
+    def calculate_block_strength(self, df: pd.DataFrame, index: int, block_type: str) -> float:
+        """Calculate strength of order block"""
+        current = df.iloc[index]
+        
+        # Body size relative to range
+        if block_type == 'bullish':
+            body_ratio = (current['close'] - current['open']) / (current['high'] - current['low'])
+        else:
+            body_ratio = (current['open'] - current['close']) / (current['high'] - current['low'])
+        
+        # Volume confirmation (if available)
+        volume_strength = 1.0
+        if 'volume' in df.columns and index > 5:
+            avg_volume = df['volume'].iloc[index-5:index].mean()
+            volume_strength = min(current['volume'] / avg_volume, 2.0) if avg_volume > 0 else 1.0
+        
+        return min(body_ratio * volume_strength, 1.0)
+    
+    def identify_fair_value_gaps(self, df: pd.DataFrame) -> List[Dict[str, Any]]:
+        """Identify Fair Value Gaps (FVG)"""
+        fvgs = []
+        
+        for i in range(2, len(df)):
+            # Bullish FVG: Current low > 2 periods ago high
+            if df.iloc[i]['low'] > df.iloc[i-2]['high']:
+                fvgs.append({
+                    'type': 'bullish',
+                    'start_index': i-2,
+                    'end_index': i,
+                    'gap_start': df.iloc[i-2]['high'],
+                    'gap_end': df.iloc[i]['low'],
+                    'gap_size': df.iloc[i]['low'] - df.iloc[i-2]['high']
+                })
+            
+            # Bearish FVG: Current high < 2 periods ago low
+            elif df.iloc[i]['high'] < df.iloc[i-2]['low']:
+                fvgs.append({
+                    'type': 'bearish',
+                    'start_index': i-2,
+                    'end_index': i,
+                    'gap_start': df.iloc[i-2]['low'],
+                    'gap_end': df.iloc[i]['high'],
+                    'gap_size': df.iloc[i-2]['low'] - df.iloc[i]['high']
+                })
+        
+        return fvgs
+    
+    def calculate_liquidity_levels(self, df: pd.DataFrame, window: int = 20) -> Dict[str, List[float]]:
+        """Calculate liquidity levels"""
+        recent_data = df.tail(window)
+        
+        # Equal highs and lows (potential liquidity areas)
+        equal_highs = self.find_equal_levels(recent_data['high'])
+        equal_lows = self.find_equal_levels(recent_data['low'])
+        
+        # Previous day/session highs and lows
+        session_highs = [recent_data['high'].max()]
+        session_lows = [recent_data['low'].min()]
+        
+        return {
+            'equal_highs': equal_highs,
+            'equal_lows': equal_lows,
+            'session_highs': session_highs,
+            'session_lows': session_lows
+        }
+    
+    def find_equal_levels(self, prices: pd.Series, tolerance: float = 0.0001) -> List[float]:
+        """Find equal price levels within tolerance"""
+        levels = []
+        unique_prices = prices.drop_duplicates().values
+        
+        for price in unique_prices:
+            similar_prices = prices[abs(prices - price) <= price * tolerance]
+            if len(similar_prices) >= 2:  # At least 2 touches
+                levels.append(price)
+        
+        return levels
+    
+    def calculate_market_structure(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Calculate market structure (Higher Highs, Lower Lows, etc.)"""
+        highs = df['high'].tail(10)
+        lows = df['low'].tail(10)
+        
+        # Find swing points
+        swing_highs = self.find_swing_points(highs, 'high')
+        swing_lows = self.find_swing_points(lows, 'low')
+        
+        # Determine structure
+        structure = self.determine_structure(swing_highs, swing_lows)
+        
+        return {
+            'swing_highs': swing_highs,
+            'swing_lows': swing_lows,
+            'structure': structure
+        }
+    
+    def find_swing_points(self, prices: pd.Series, point_type: str) -> List[Tuple[int, float]]:
+        """Find swing high/low points"""
+        swing_points = []
+        
+        for i in range(1, len(prices) - 1):
+            if point_type == 'high':
+                if prices.iloc[i] > prices.iloc[i-1] and prices.iloc[i] > prices.iloc[i+1]:
+                    swing_points.append((i, prices.iloc[i]))
+            else:  # low
+                if prices.iloc[i] < prices.iloc[i-1] and prices.iloc[i] < prices.iloc[i+1]:
+                    swing_points.append((i, prices.iloc[i]))
+        
+        return swing_points
+    
+    def determine_structure(self, swing_highs: List[Tuple[int, float]], 
+                          swing_lows: List[Tuple[int, float]]) -> str:
+        """Determine market structure"""
+        if len(swing_highs) < 2 or len(swing_lows) < 2:
+            return 'insufficient_data'
+        
+        # Check for Higher Highs and Higher Lows (uptrend)
+        recent_highs = sorted(swing_highs, key=lambda x: x[0])[-2:]
+        recent_lows = sorted(swing_lows, key=lambda x: x)[-2:]
+        
+        hh = recent_highs[1][1] > recent_highs[1]  # Higher High
+        hl = recent_lows[1][1] > recent_lows[1]    # Higher Low
+        
+        ll = recent_lows[1][1] < recent_lows[1]    # Lower Low  
+        lh = recent_highs[1][1] < recent_highs[1]  # Lower High
+        
+        if hh and hl:
+            return 'uptrend'
+        elif ll and lh:
+            return 'downtrend'
+        else:
+            return 'sideways'
+'''
+    
+    def get_technical_indicators_template(self) -> str:
+        """Technical indicators utility template"""
+        return '''#!/usr/bin/env python3
+"""
+Technical Indicators - Common technical analysis indicators
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, Optional, Tuple
+
+class TechnicalIndicators:
+    """Collection of technical analysis indicators"""
+    
+    def __init__(self):
+        self.name = "TechnicalIndicators"
+    
+    def sma(self, data: pd.Series, period: int) -> pd.Series:
+        """Simple Moving Average"""
+        return data.rolling(window=period).mean()
+    
+    def ema(self, data: pd.Series, period: int) -> pd.Series:
+        """Exponential Moving Average"""
+        return data.ewm(span=period).mean()
+    
+    def rsi(self, data: pd.Series, period: int = 14) -> pd.Series:
+        """Relative Strength Index"""
+        delta = data.diff()
+        gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
+        loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
+        rs = gain / loss
+        return 100 - (100 / (1 + rs))
+    
+    def macd(self, data: pd.Series, fast: int = 12, slow: int = 26, signal: int = 9) -> Dict[str, pd.Series]:
+        """MACD (Moving Average Convergence Divergence)"""
+        ema_fast = self.ema(data, fast)
+        ema_slow = self.ema(data, slow)
+        macd_line = ema_fast - ema_slow
+        signal_line = self.ema(macd_line, signal)
+        histogram = macd_line - signal_line
+        
+        return {
+            'macd': macd_line,
+            'signal': signal_line,
+            'histogram': histogram
+        }
+    
+    def bollinger_bands(self, data: pd.Series, period: int = 20, std_dev: float = 2.0) -> Dict[str, pd.Series]:
+        """Bollinger Bands"""
+        middle = self.sma(data, period)
+        std = data.rolling(window=period).std()
+        upper = middle + (std * std_dev)
+        lower = middle - (std * std_dev)
+        
+        return {
+            'upper': upper,
+            'middle': middle,
+            'lower': lower
+        }
+    
+    def stochastic(self, high: pd.Series, low: pd.Series, close: pd.Series, 
+                   k_period: int = 14, d_period: int = 3) -> Dict[str, pd.Series]:
+        """Stochastic Oscillator"""
+        lowest_low = low.rolling(window=k_period).min()
+        highest_high = high.rolling(window=k_period).max()
+        k_percent = 100 * ((close - lowest_low) / (highest_high - lowest_low))
+        d_percent = k_percent.rolling(window=d_period).mean()
+        
+        return {
+            'k': k_percent,
+            'd': d_percent
+        }
+    
+    def atr(self, high: pd.Series, low: pd.Series, close: pd.Series, period: int = 14) -> pd.Series:
+        """Average True Range"""
+        tr1 = high - low
+        tr2 = abs(high - close.shift())
+        tr3 = abs(low - close.shift())
+        true_range = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+        return true_range.rolling(window=period).mean()
+    
+    def williams_r(self, high: pd.Series, low: pd.Series, close: pd.Series, period: int = 14) -> pd.Series:
+        """Williams %R"""
+        highest_high = high.rolling(window=period).max()
+        lowest_low = low.rolling(window=period).min()
+        return -100 * ((highest_high - close) / (highest_high - lowest_low))
+    
+    def cci(self, high: pd.Series, low: pd.Series, close: pd.Series, period: int = 20) -> pd.Series:
+        """Commodity Channel Index"""
+        typical_price = (high + low + close) / 3
+        sma_tp = typical_price.rolling(window=period).mean()
+        mean_deviation = typical_price.rolling(window=period).apply(
+            lambda x: np.mean(np.abs(x - x.mean())))
+        return (typical_price - sma_tp) / (0.015 * mean_deviation)
+    
+    def adx(self, high: pd.Series, low: pd.Series, close: pd.Series, period: int = 14) -> Dict[str, pd.Series]:
+        """Average Directional Index"""
+        plus_dm = high.diff()
+        minus_dm = low.diff() * -1
+        
+        plus_dm[plus_dm < 0] = 0
+        minus_dm[minus_dm < 0] = 0
+        
+        tr = self.true_range(high, low, close)
+        atr = tr.rolling(window=period).mean()
+        
+        plus_di = 100 * (plus_dm.rolling(window=period).mean() / atr)
+        minus_di = 100 * (minus_dm.rolling(window=period).mean() / atr)
+        
+        dx = 100 * abs(plus_di - minus_di) / (plus_di + minus_di)
+        adx = dx.rolling(window=period).mean()
+        
+        return {
+            'adx': adx,
+            'plus_di': plus_di,
+            'minus_di': minus_di
+        }
+    
+    def true_range(self, high: pd.Series, low: pd.Series, close: pd.Series) -> pd.Series:
+        """True Range calculation"""
+        tr1 = high - low
+        tr2 = abs(high - close.shift())
+        tr3 = abs(low - close.shift())
+        return pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+    
+    def fibonacci_retracement(self, high_price: float, low_price: float) -> Dict[str, float]:
+        """Fibonacci Retracement Levels"""
+        diff = high_price - low_price
+        
+        return {
+            'level_0': high_price,
+            'level_23_6': high_price - 0.236 * diff,
+            'level_38_2': high_price - 0.382 * diff,
+            'level_50': high_price - 0.5 * diff,
+            'level_61_8': high_price - 0.618 * diff,
+            'level_78_6': high_price - 0.786 * diff,
+            'level_100': low_price
+        }
+    
+    def pivot_points(self, high: float, low: float, close: float) -> Dict[str, float]:
+        """Pivot Points calculation"""
+        pp = (high + low + close) / 3
+        
+        return {
+            'pivot': pp,
+            'r1': 2 * pp - low,
+            'r2': pp + (high - low),
+            'r3': high + 2 * (pp - low),
+            's1': 2 * pp - high,
+            's2': pp - (high - low),
+            's3': low - 2 * (high - pp)
+        }
+    
+    def ichimoku(self, high: pd.Series, low: pd.Series, close: pd.Series) -> Dict[str, pd.Series]:
+        """Ichimoku Cloud"""
+        # Tenkan-sen (Conversion Line)
+        tenkan_sen = (high.rolling(9).max() + low.rolling(9).min()) / 2
+        
+        # Kijun-sen (Base Line)  
+        kijun_sen = (high.rolling(26).max() + low.rolling(26).min()) / 2
+        
+        # Senkou Span A (Leading Span A)
+        senkou_span_a = ((tenkan_sen + kijun_sen) / 2).shift(26)
+        
+        # Senkou Span B (Leading Span B)
+        senkou_span_b = ((high.rolling(52).max() + low.rolling(52).min()) / 2).shift(26)
+        
+        # Chikou Span (Lagging Span)
+        chikou_span = close.shift(-26)
+        
+        return {
+            'tenkan_sen': tenkan_sen,
+            'kijun_sen': kijun_sen,
+            'senkou_span_a': senkou_span_a,
+            'senkou_span_b': senkou_span_b,
+            'chikou_span': chikou_span
+        }
+'''
+    
+    def get_volume_strategy_template(self) -> str:
+        """Volume-based strategy template"""
+        return '''#!/usr/bin/env python3
+"""
+Volume Strategy - Volume-based trading strategy
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, Optional
+
+class VolumeStrategy:
+    """Volume-based trading strategy"""
+    
+    def __init__(self, **kwargs):
+        self.name = "VolumeStrategy"
+        self.volume_ma_period = kwargs.get('volume_ma_period', 20)
+        self.volume_spike_threshold = kwargs.get('volume_spike_threshold', 1.5)
+        self.price_volume_correlation_period = kwargs.get('correlation_period', 10)
+        self.confidence_threshold = kwargs.get('confidence_threshold', 0.65)
+    
+    def analyze(self, df: pd.DataFrame, symbol: str) -> Optional[Dict[str, Any]]:
+        """Analyze using volume indicators"""
+        if 'volume' not in df.columns or len(df) < self.volume_ma_period + 10:
+            return None
+        
+        try:
+            # Calculate volume indicators
+            volume_analysis = self.analyze_volume_patterns(df)
+            price_volume_correlation = self.calculate_price_volume_correlation(df)
+            volume_trend = self.analyze_volume_trend(df)
+            
+            signal_direction = "HOLD"
+            confidence = 0.5
+            
+            # Volume-based signal logic
+            if (volume_analysis['spike_detected'] and 
+                price_volume_correlation['correlation'] > 0.3 and
+                volume_trend['trend'] == 'increasing'):
+                
+                # Volume spike with price movement
+                if price_volume_correlation['price_direction'] == 'up':
+                    signal_direction = "BUY"
+                    confidence = 0.65 + (volume_analysis['spike_intensity'] * 0.2)
+                elif price_volume_correlation['price_direction'] == 'down':
+                    signal_direction = "SELL"
+                    confidence = 0.65 + (volume_analysis['spike_intensity'] * 0.2)
+            
+            # Volume divergence signal
+            elif (volume_analysis['divergence_detected'] and
+                  abs(price_volume_correlation['correlation']) > 0.4):
+                
+                if volume_analysis['divergence_type'] == 'bullish':
+                    signal_direction = "BUY"
+                    confidence = 0.7
+                elif volume_analysis['divergence_type'] == 'bearish':
+                    signal_direction = "SELL"
+                    confidence = 0.7
+            
+            if confidence >= self.confidence_threshold:
+                return {
+                    'signal': signal_direction,
+                    'confidence': confidence,
+                    'strategy': self.name,
+                    'reason': f'Volume analysis: spike={volume_analysis["spike_detected"]}, correlation={price_volume_correlation["correlation"]:.2f}',
+                    'strategy_data': {
+                        'volume_analysis': volume_analysis,
+                        'price_volume_correlation': price_volume_correlation,
+                        'volume_trend': volume_trend
+                    }
+                }
+            
+            return None
+            
+        except Exception as e:
+            return None
+    
+    def analyze_volume_patterns(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Analyze volume patterns"""
+        # Calculate volume moving average
+        volume_ma = df['volume'].rolling(self.volume_ma_period).mean()
+        current_volume = df['volume'].iloc[-1]
+        avg_volume = volume_ma.iloc[-1]
+        
+        # Detect volume spike
+        spike_intensity = current_volume / avg_volume if avg_volume > 0 else 0
+        spike_detected = spike_intensity >= self.volume_spike_threshold
+        
+        # Detect volume divergence
+        divergence = self.detect_volume_divergence(df)
+        
+        return {
+            'current_volume': current_volume,
+            'avg_volume': avg_volume,
+            'spike_intensity': spike_intensity,
+            'spike_detected': spike_detected,
+            'divergence_detected': divergence['detected'],
+            'divergence_type': divergence['type']
+        }
+    
+    def detect_volume_divergence(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Detect volume-price divergence"""
+        recent_data = df.tail(10)
+        
+        # Price trend
+        price_trend = recent_data['close'].iloc[-1] - recent_data['close'].iloc[0]
+        
+        # Volume trend
+        volume_ma_short = recent_data['volume'].rolling(3).mean()
+        volume_trend = volume_ma_short.iloc[-1] - volume_ma_short.iloc
+        
+        # Divergence detection
+        divergence_detected = False
+        divergence_type = 'none'
+        
+        # Bullish divergence: price down, volume up
+        if price_trend < 0 and volume_trend > 0:
+            divergence_detected = True
+            divergence_type = 'bullish'
+        
+        # Bearish divergence: price up, volume down
+        elif price_trend > 0 and volume_trend < 0:
+            divergence_detected = True
+            divergence_type = 'bearish'
+        
+        return {
+            'detected': divergence_detected,
+            'type': divergence_type,
+            'price_trend': price_trend,
+            'volume_trend': volume_trend
+        }
+    
+    def calculate_price_volume_correlation(self, df: pd.DataFrame) -> Dict[str, float]:
+        """Calculate price-volume correlation"""
+        recent_data = df.tail(self.price_volume_correlation_period)
+        
+        price_changes = recent_data['close'].pct_change()
+        volume_changes = recent_data['volume'].pct_change()
+        
+        # Calculate correlation
+        correlation = price_changes.corr(volume_changes)
+        if np.isnan(correlation):
+            correlation = 0.0
+        
+        # Determine price direction
+        price_change = recent_data['close'].iloc[-1] - recent_data['close'].iloc[0]
+        price_direction = 'up' if price_change > 0 else 'down' if price_change < 0 else 'flat'
+        
+        return {
+            'correlation': correlation,
+            'price_direction': price_direction,
+            'price_change_pct': price_change / recent_data['close'].iloc if recent_data['close'].iloc > 0 else 0
+        }
+    
+    def analyze_volume_trend(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Analyze volume trend"""
+        volume_ma_short = df['volume'].rolling(5).mean()
+        volume_ma_long = df['volume'].rolling(20).mean()
+        
+        current_short = volume_ma_short.iloc[-1]
+        current_long = volume_ma_long.iloc[-1]
+        
+        if current_short > current_long * 1.1:
+            trend = 'increasing'
+        elif current_short < current_long * 0.9:
+            trend = 'decreasing'
+        else:
+            trend = 'stable'
+        
+        return {
+            'trend': trend,
+            'volume_ma_short': current_short,
+            'volume_ma_long': current_long,
+            'ratio': current_short / current_long if current_long > 0 else 0
+        }
+'''
+    
+    def get_generic_strategy_template(self, strategy_name: str) -> str:
+        """Generic strategy template"""
+        return f'''#!/usr/bin/env python3
+"""
+{strategy_name} - Generic trading strategy
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any, Optional
+
+class {strategy_name}:
+    """Generic trading strategy"""
+    
+    def __init__(self, **kwargs):
+        self.name = "{strategy_name}"
+        self.period = kwargs.get('period', 20)
+        self.threshold = kwargs.get('threshold', 0.5)
+        self.confidence_threshold = kwargs.get('confidence_threshold', 0.6)
+    
+    def analyze(self, df: pd.DataFrame, symbol: str) -> Optional[Dict[str, Any]]:
+        """Analyze market data for trading signals"""
+        if len(df) < self.period + 5:
+            return None
+        
+        try:
+            # Simple moving average crossover strategy
+            ma_short = df['close'].rolling(int(self.period/2)).mean()
+            ma_long = df['close'].rolling(self.period).mean()
+            
+            current_short = ma_short.iloc[-1]
+            current_long = ma_long.iloc[-1]
+            prev_short = ma_short.iloc[-2] 
+            prev_long = ma_long.iloc[-2]
+            
+            signal_direction = "HOLD"
+            confidence = 0.5
+            
+            # Bullish crossover
+            if current_short > current_long and prev_short <= prev_long:
+                signal_direction = "BUY"
+                confidence = 0.65
+            
+            # Bearish crossover
+            elif current_short < current_long and prev_short >= prev_long:
+                signal_direction = "SELL"
+                confidence = 0.65
+            
+            if confidence >= self.confidence_threshold:
+                return {{
+                    'signal': signal_direction,
+                    'confidence': confidence,
+                    'strategy': self.name,
+                    'reason': f'MA crossover: short={{current_short:.5f}}, long={{current_long:.5f}}',
+                    'strategy_data': {{
+                        'ma_short': current_short,
+                        'ma_long': current_long,
+                        'crossover': signal_direction != "HOLD"
+                    }}
+                }}
+            
+            return None
+            
+        except Exception as e:
+            return None
+'''
+    
+    def create_missing_strategies(self):
+        """Create any additional missing strategies"""
+        additional_strategies = [
+            ('momentum_scalping_strategy.py', 'MomentumScalpingStrategy'),
+            ('range_trading_strategy.py', 'RangeTradingStrategy'),
+            ('support_resistance_strategy.py', 'SupportResistanceStrategy')
+        ]
+        
+        for filename, class_name in additional_strategies:
+            if not (self.strategies_dir / filename).exists():
+                content = self.get_generic_strategy_template(class_name)
+                
+                try:
+                    with open(self.strategies_dir / filename, 'w', encoding='utf-8') as f:
+                        f.write(content)
+                    
+                    self.created_strategies.append(filename)
+                    print(f"   ✅ Created additional strategy: {filename}")
+                except Exception as e:
+                    print(f"   ❌ Error creating {filename}: {e}")
+
+def main():
+    """Run strategy fixer"""
+    fixer = StrategyFixer()
+    fixer.fix_all_strategies()
+    
+    print(f"\n🎉 STRATEGY FIXING COMPLETE!")
+    print(f"   ✅ Fixed strategies: {len(fixer.fixed_strategies)}")
+    print(f"   🆕 Created strategies: {len(fixer.created_strategies)}")
+    print(f"\nNow restart your bot to load all strategies!")
+
+if __name__ == "__main__":
+    main()

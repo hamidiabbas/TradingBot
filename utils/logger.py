@@ -1,4 +1,35 @@
 """
+<<<<<<< HEAD
+Logger utility module
+"""
+import logging
+from datetime import datetime
+
+def setup_logging(name="TradingBot", level=logging.INFO):
+    """Setup basic logging"""
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    
+    if not logger.handlers:
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+    
+    return logger
+
+# Default logger
+logger = setup_logging()
+
+def log_info(message):
+    logger.info(message)
+
+def log_error(message):
+    logger.error(message)
+
+def log_warning(message):
+    logger.warning(message)
+=======
 Complete logging utilities for TradingBot v1.0
 Provides setup_logging and other logging functions required by strategies
 """
@@ -95,3 +126,4 @@ __all__ = [
     'setup_logging', 'get_logger', 'set_log_level', 'Logger', 
     'logger', 'create_logger', 'configure_logging'
 ]
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3

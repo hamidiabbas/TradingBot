@@ -1,3 +1,24 @@
+<<<<<<< HEAD
+atr_period: 14
+atr_sl_multiplier: 2.0
+atr_tp_multiplier: 4.0
+base_risk_per_trade: 0.005
+enable_dynamic_sl_tp: true
+kelly_enabled: true
+kelly_lookback_period: 100
+kelly_multiplier: 0.5
+kelly_safety_factor: 0.25
+log_level: INFO
+max_kelly_fraction: 0.2
+max_portfolio_risk: 0.15
+max_position_size: 0.1
+max_positions: 500
+max_risk_per_trade: 0.03
+max_single_symbol_risk: 0.08
+min_kelly_samples: 20
+min_position_size: 0.01
+min_signal_confidence: 0.35
+=======
 advanced_signal_factory_enabled: true
 base_position_size: 0.01
 base_risk_per_trade: 0.01
@@ -53,13 +74,17 @@ position_sizing:
 signal_factory_enabled: true
 signal_processing_interval: 10
 stop_loss_pips: 50
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 symbols:
 - EURUSD
 - GBPUSD
 - USDJPY
 - USDCHF
 - XAUUSD
+<<<<<<< HEAD
+=======
 take_profit_pips: 100
+>>>>>>> 8f626e2ef1a5d0198eacb62ca49d93985fc3b2f3
 timeframes:
 - M15
 - H1

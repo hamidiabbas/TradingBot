@@ -1,0 +1,6 @@
+{
+  "strategy_name": "MomentumScalpingStrategy",
+  "error": "No market data available",
+  "performance_metrics": "PortfolioMetrics(total_return=0.0, net_profit=0.0, sharpe_ratio=0.0, max_drawdown=0.0, total_trades=0, win_rate=0.0, profit_factor=0.0, avg_trade=0.0, avg_winner=0.0, avg_loser=0.0, largest_winner=0.0, largest_loser=0.0, winning_trades=0, losing_trades=0, volatility=0.0, calmar_ratio=0.0, sortino_ratio=0.0)",
+  "runtime_seconds": 0.034683942794799805
+}
